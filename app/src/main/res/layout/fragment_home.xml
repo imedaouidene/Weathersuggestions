@@ -59,7 +59,7 @@
                 android:id="@+id/tv_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/White"
                 android:text="CONDITION" />
 
         </LinearLayout>
@@ -80,7 +80,7 @@
                 android:background="@drawable/layout_click"
                 android:text="Address"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/white" />
+                android:textColor="@color/White" />
         </LinearLayout>
 
         <LinearLayout

@@ -4,11 +4,25 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.mob.mse.weathersuggestions.JSON.JSONLoader;
 import com.mob.mse.weathersuggestions.R;
+import com.mob.mse.weathersuggestions.data.Utils;
+
+import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 /**
@@ -61,12 +75,51 @@ public class home extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private TextView tv_temp, tv_desc, tv_city, tv_day;
+    private Button bt_refresh, bt_theme, bt_map;
+    private ImageView img_icon;
+    private LinearLayout listview;
+    private RelativeLayout lyt_bg;
+    private ProgressBar progressbar;
+    Utils utils = new Utils();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View root  = inflater.inflate(R.layout.fragment_home, container, false);
+
+        String loc = "46.1877542|6.1487415";
+        String urlstring = Utils.getURLweather(loc);
+        URL url = null  ;
+        try {
+            url = new URL(String.format(urlstring));
+            Log.e("url",url.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+
+        }
+        JSONLoader.placeIdTask asyntask = new JSONLoader.placeIdTask(new JSONLoader.AsyncResponse() {
+            @Override
+            public void processFinish(JSONObject jsonObject) {
+                //Log.e("json",jsonObject.toString());
+            }
+        });
+        asyntask.execute(url);
+
+        tv_temp		= (TextView) root.findViewById(R.id.tv_temp);
+        tv_desc		= (TextView) root.findViewById(R.id.tv_desc);
+        tv_city		= (TextView) root.findViewById(R.id.tv_city);
+        tv_day		= (TextView) root.findViewById(R.id.tv_day);
+        bt_refresh	= (Button) root.findViewById(R.id.bt_refresh);
+        bt_theme	= (Button) root.findViewById(R.id.bt_theme);
+        bt_map		= (Button) root.findViewById(R.id.bt_map);
+        img_icon	= (ImageView) root.findViewById(R.id.img_icon);
+        progressbar	= (ProgressBar) root.findViewById(R.id.progressbar);
+        lyt_bg		= (RelativeLayout) root.findViewById(R.id.lyt_bg);
+        listview 	= (LinearLayout) root.findViewById(R.id.listview);
+
+
+        return root ;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
