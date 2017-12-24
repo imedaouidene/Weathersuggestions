@@ -1,8 +1,6 @@
 package com.mob.mse.weathersuggestions;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -12,10 +10,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.mob.mse.weathersuggestions.data.ConnectionDetector;
+
 import static com.mob.mse.weathersuggestions.R.layout.activity_main;
 
 public class MainActivity extends AppCompatActivity {
-
+ConnectionDetector cd ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Thread to pass automatically to next layout
 
-
+        cd = new ConnectionDetector(getApplicationContext()) ;
 
         checkconnection() ;
 
@@ -53,9 +53,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        boolean  b = cm.getActiveNetworkInfo() != null;
+        boolean  b = cd.isConnectingToInternet() ;
         if (b) {
             try {
 
