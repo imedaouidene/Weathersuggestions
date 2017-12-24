@@ -65,8 +65,7 @@ public class Main extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -74,6 +73,8 @@ public class Main extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.home) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             home fragment = new home() ;
             fragmentTransaction.add(R.id.fragment_container, fragment);
             fragmentTransaction.commit();

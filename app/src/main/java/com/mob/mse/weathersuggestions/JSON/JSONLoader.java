@@ -17,72 +17,89 @@ public class JSONLoader {
 
     public interface AsyncResponse {
 
-    void processFinish(JSONObject jsonObject);
-}
-public static class placeIdTask extends AsyncTask<URL,Void,JSONObject> {
+        void processFinish(JSONObject output1);
+    }
+    public static class placeIdTask extends AsyncTask<String, Void, JSONObject> {
 
+        public AsyncResponse delegate = null;//Call back interface
 
-
-
-    @Override
-    protected JSONObject doInBackground(URL... urls) {
-        JSONObject jsonWeather = null;
-
-        try {
-            jsonWeather = getWeatherJSON(urls[0]);
-            Log.d("progress", "here1");
-        } catch (Exception e) {
-            Log.d("Error", "Cannot process JSON results", e);
+        public placeIdTask(AsyncResponse asyncResponse) {
+            delegate = asyncResponse;//Assigning call back interfacethrough constructor
         }
 
+        @Override
+        protected JSONObject doInBackground(String... params) {
 
-        return jsonWeather;
+            JSONObject jsonWeather = null;
+            String myurl = params[0] ;
+            try {
+                jsonWeather = getJSON(myurl);
+            } catch (Exception e) {
+                Log.d("Error", "Cannot process JSON results", e);
+            }
 
+
+            return jsonWeather;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+
+                if(json != null){
+                    Log.w("i'm here",json.toString());
+                    //Log.d("list",list.toString()) ;
+
+                    delegate.processFinish(json);
+
+                }
+            } catch (Exception e) {
+                Log.e("erreur", "Cannot process JSON results", e);
+            }
+
+
+
+        }
     }
 
 
-    public AsyncResponse delegate = null;//Call back interface
-    public placeIdTask(AsyncResponse asyncResponse) {
-        delegate = asyncResponse;//Assigning call back interfacethrough constructor
-    }
-
-    protected void onPostExecute(JSONObject json) {
-        delegate.processFinish(json);
-
-    }
 
 
-    public  JSONObject getWeatherJSON(URL url){
+
+
+    public static JSONObject getJSON(String myurl){
         try {
-            Log.d("progress", "here2");
-            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-            Log.d("progress", "here3");
+            URL url = new URL(String.format(myurl));
+            HttpURLConnection connection =
+                    (HttpURLConnection)url.openConnection();
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            Log.d("progress", "here4");
+            //	connection.addRequestProperty("x-api-key", OPEN_WEATHER_MAP_API);
+
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
 
             StringBuffer json = new StringBuffer(2048);
             String tmp="";
-            Log.d("progress", "here5");
             while((tmp=reader.readLine())!=null)
                 json.append(tmp).append("\n");
             reader.close();
-            Log.d("progress", "here6");
+            Log.d("json","ahlaaaa");
 
             Log.d("json",json.toString());
+
+
             JSONObject data = new JSONObject(json.toString());
 
-            // This value will be 404 if the request was not successful
-            if(data.getInt("cod") != 200){
-                return null;
-            }
+            // This value will be 404 if the request was not
+            // successful
 
             return data;
         }catch(Exception e){
+            Log.e("error",e.toString());
             return null;
         }
 
     }
+}
 
-}
-}
+

@@ -104,7 +104,7 @@ public class home extends Fragment {
                 //Log.e("json",jsonObject.toString());
             }
         });
-        asyntask.execute(url);
+        asyntask.execute(urlstring);
 
         tv_temp		= (TextView) root.findViewById(R.id.tv_temp);
         tv_desc		= (TextView) root.findViewById(R.id.tv_desc);
