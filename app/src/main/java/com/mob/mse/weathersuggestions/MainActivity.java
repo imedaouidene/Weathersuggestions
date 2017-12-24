@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 timerThread = new Thread(){
                     public void run(){
                         try{
-                            sleep(10000);
+                            sleep(2000);
                         }catch(InterruptedException e){
                             e.printStackTrace();
                         }finally{
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 };
 
-                nointernet.dismiss();
+
                 timerThread.run();
             } catch (Exception e){
                 Log.w("ERROR","ERROR in snack bar   "+e.toString() );
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 nointernet.show();
              }catch (Exception e){
-                Log.w("ERROR","ERROR in snack bar   "+e.toString() );
+                Log.w("ERROR","ERROR in snackbar   "+e.toString() );
 
             }
         }
