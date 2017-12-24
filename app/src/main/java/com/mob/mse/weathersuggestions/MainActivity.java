@@ -34,20 +34,6 @@ public class MainActivity extends AppCompatActivity {
         //Thread to pass automatically to next layout
 
 
-       timerThread = new Thread(){
-            public void run(){
-                try{
-                    sleep(2000);
-                }catch(InterruptedException e){
-                    e.printStackTrace();
-                }finally{
-                    Intent intent = new Intent(MainActivity.this,Main.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        };
-
 
         checkconnection() ;
 
@@ -72,6 +58,21 @@ public class MainActivity extends AppCompatActivity {
         boolean  b = cm.getActiveNetworkInfo() != null;
         if (b) {
             try {
+
+                timerThread = new Thread(){
+                    public void run(){
+                        try{
+                            sleep(10000);
+                        }catch(InterruptedException e){
+                            e.printStackTrace();
+                        }finally{
+                            Intent intent = new Intent(MainActivity.this,Main.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                };
+
                 nointernet.dismiss();
                 timerThread.run();
             } catch (Exception e){
