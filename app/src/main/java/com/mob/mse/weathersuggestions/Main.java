@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mob.mse.weathersuggestions.fragments.home;
+
 public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -69,7 +71,7 @@ public class Main extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.home) {
-            current_weather fragment = new current_weather() ;
+            home fragment = new home() ;
             fragmentTransaction.add(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
             // Handle the camera action
