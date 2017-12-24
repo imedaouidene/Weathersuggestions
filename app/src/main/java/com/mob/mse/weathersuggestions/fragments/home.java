@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,7 @@ import android.widget.TextView;
 import com.mob.mse.weathersuggestions.JSON.JSONLoader;
 import com.mob.mse.weathersuggestions.R;
 import com.mob.mse.weathersuggestions.data.Utils;
-
-import org.json.JSONObject;
-
-import java.net.MalformedURLException;
-import java.net.URL;
+import com.mob.mse.weathersuggestions.model.WeatherResponse;
 
 
 /**
@@ -81,31 +76,12 @@ public class home extends Fragment {
     private LinearLayout listview;
     private RelativeLayout lyt_bg;
     private ProgressBar progressbar;
-    Utils utils = new Utils();
+    Utils utils = new Utils(getContext());
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root  = inflater.inflate(R.layout.fragment_home, container, false);
-
-        String loc = "46.1877542|6.1487415";
-        String urlstring = Utils.getURLweather(loc);
-        URL url = null  ;
-        try {
-            url = new URL(String.format(urlstring));
-            Log.e("url",url.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-
-        }
-        JSONLoader.placeIdTask asyntask = new JSONLoader.placeIdTask(new JSONLoader.AsyncResponse() {
-            @Override
-            public void processFinish(JSONObject jsonObject) {
-                //Log.e("json",jsonObject.toString());
-            }
-        });
-        asyntask.execute(urlstring);
-
         tv_temp		= (TextView) root.findViewById(R.id.tv_temp);
         tv_desc		= (TextView) root.findViewById(R.id.tv_desc);
         tv_city		= (TextView) root.findViewById(R.id.tv_city);
@@ -117,6 +93,33 @@ public class home extends Fragment {
         progressbar	= (ProgressBar) root.findViewById(R.id.progressbar);
         lyt_bg		= (RelativeLayout) root.findViewById(R.id.lyt_bg);
         listview 	= (LinearLayout) root.findViewById(R.id.listview);
+
+        String loc = "46.1877542|6.1487415";
+        String urlstring = Utils.getURLweather(loc);
+        String forecast = Utils.getURLforecast(loc);
+        JSONLoader.placeIdTask asyntask = new JSONLoader.placeIdTask(new JSONLoader.AsyncResponse() {
+            @Override
+            public void processFinish(WeatherResponse output1) {
+               // Log.d("final" ,output1.toString()) ;
+                tv_temp.setText(Double.toString(output1.main.temp));
+
+                tv_desc.setText(output1.weather.get(0).main.toUpperCase());
+                tv_day.setText(utils.getDay(output1.dt));
+                utils.setDrawableIcon(output1.weather.get(0).icon, img_icon);
+                utils.setLytColor(output1.weather.get(0).icon, lyt_bg);
+
+
+
+
+
+
+
+
+
+            }
+        });
+        asyntask.execute(urlstring,forecast);
+
 
 
         return root ;

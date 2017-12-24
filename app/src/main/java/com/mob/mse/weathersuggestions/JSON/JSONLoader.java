@@ -3,47 +3,64 @@ package com.mob.mse.weathersuggestions.JSON;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.mob.mse.weathersuggestions.model.ForecastResponse;
+import com.mob.mse.weathersuggestions.model.WeatherResponse;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 /**
  * Created by Imed on 24-Dec-17.
  */
 public class JSONLoader {
 
+
     public interface AsyncResponse {
 
-        void processFinish(JSONObject output1);
+        void processFinish(WeatherResponse output1);
     }
-    public static class placeIdTask extends AsyncTask<String, Void, JSONObject> {
+    public static class placeIdTask extends AsyncTask<String, Void, WeatherResponse> {
 
+        private String weatherString = null ;
+        private  String forecastString = null ;
         public AsyncResponse delegate = null;//Call back interface
 
         public placeIdTask(AsyncResponse asyncResponse) {
             delegate = asyncResponse;//Assigning call back interfacethrough constructor
         }
-
+        WeatherResponse w ;
         @Override
-        protected JSONObject doInBackground(String... params) {
-
-            JSONObject jsonWeather = null;
-            String myurl = params[0] ;
+        protected WeatherResponse  doInBackground(String... params) {
+            WeatherResponse weather		= new WeatherResponse();
+            ForecastResponse forecast 	= new ForecastResponse();
+            JSONObject weatherResponse = null;
+            JSONObject forcastResponse = null ;
+            String weatherurl=  params[0] ;
+            String forecasturl =  params[1] ;
             try {
-                jsonWeather = getJSON(myurl);
+                Gson gson = new Gson();
+
+                weatherResponse = getJSON(weatherurl);
+                forcastResponse = getJSON(forecasturl);
+                weatherString = weatherResponse.toString();
+                forecastString = forcastResponse.toString() ;
+
+                w= gson.fromJson(weatherString, WeatherResponse.class);
+
             } catch (Exception e) {
                 Log.d("Error", "Cannot process JSON results", e);
             }
 
 
-            return jsonWeather;
+            return w;
         }
 
         @Override
-        protected void onPostExecute(JSONObject json) {
+        protected void onPostExecute(WeatherResponse  json) {
             try {
 
                 if(json != null){
@@ -83,9 +100,7 @@ public class JSONLoader {
             while((tmp=reader.readLine())!=null)
                 json.append(tmp).append("\n");
             reader.close();
-            Log.d("json","ahlaaaa");
 
-            Log.d("json",json.toString());
 
 
             JSONObject data = new JSONObject(json.toString());
