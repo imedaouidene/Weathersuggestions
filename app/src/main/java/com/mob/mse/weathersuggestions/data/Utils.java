@@ -73,42 +73,87 @@ public class Utils{
         return URL;
     }
 
-    public void setLytColor(String icon, RelativeLayout lyt){
+    public int setLytColor(String icon, RelativeLayout lyt){
 
         String color[] = context.getResources().getStringArray(R.array.color_weather);
         if (icon.equals("01d") || icon.equals("01n")) { // clear sky
             lyt.setBackgroundColor(Color.parseColor(color[0]));
+            return Color.parseColor(color[0]) ;
 
         } else if (icon.equals("02d") || icon.equals("02n")) { // few clouds
             lyt.setBackgroundColor(Color.parseColor(color[1]));
+            return Color.parseColor(color[1]) ;
+
 
         } else if (icon.equals("03d") || icon.equals("03n")) { // scatteredclouds
             lyt.setBackgroundColor(Color.parseColor(color[2]));
+            return Color.parseColor(color[2]) ;
+
 
         } else if (icon.equals("04d") || icon.equals("04n")) { // broken clouds
             lyt.setBackgroundColor(Color.parseColor(color[3]));
+            return Color.parseColor(color[3]) ;
 
         } else if (icon.equals("09d") || icon.equals("09n")) { // shower rain
             lyt.setBackgroundColor(Color.parseColor(color[4]));
+            return Color.parseColor(color[4]) ;
 
         } else if (icon.equals("10d") || icon.equals("10n")) { // rain
             lyt.setBackgroundColor(Color.parseColor(color[5]));
+            return Color.parseColor(color[5]) ;
 
         } else if (icon.equals("11d") || icon.equals("11n")) { // thunderstorm
             lyt.setBackgroundColor(Color.parseColor(color[6]));
+            return Color.parseColor(color[6]) ;
 
         } else if (icon.equals("13d") || icon.equals("13n")) { // snow
             lyt.setBackgroundColor(Color.parseColor(color[7]));
+            return Color.parseColor(color[7]) ;
 
         } else if (icon.equals("50d") || icon.equals("50n")) { // mist
             lyt.setBackgroundColor(Color.parseColor(color[8]));
+            return Color.parseColor(color[8]) ;
 
         } else {
             lyt.setBackgroundColor(Color.parseColor(color[9]));
+            return Color.parseColor(color[9]) ;
+
         }
     }
 
+    public void setDrawableSmallIcon(String icon, ImageView im) {
 
+        if (icon.equals("01d")||icon.equals("01n")) { // clear sky
+            im.setBackgroundResource(R.drawable.w_small_clear);
+
+        } else if (icon.equals("02d")||icon.equals("02n")) { //few clouds
+            im.setBackgroundResource(R.drawable.w_small_fewcloud);
+
+        }else if (icon.equals("03d")||icon.equals("03n")) { // scattered clouds
+            im.setBackgroundResource(R.drawable.w_small_cloud);
+
+        }else if (icon.equals("04d")||icon.equals("04n")) { //broken clouds
+            im.setBackgroundResource(R.drawable.w_small_cloud);
+
+        }else if (icon.equals("09d")||icon.equals("09n")) {  //shower rain
+            im.setBackgroundResource(R.drawable.w_small_shower);
+
+        }else if (icon.equals("10d")||icon.equals("10n")) { //rain
+            im.setBackgroundResource(R.drawable.w_small_rain);
+
+        }else if (icon.equals("11d")||icon.equals("11n")) { //thunderstorm
+            im.setBackgroundResource(R.drawable.w_small_thunderstorm);
+
+        }else if (icon.equals("13d")||icon.equals("13n")) { //snow
+            im.setBackgroundResource(R.drawable.w_small_snow);
+
+        }else if (icon.equals("50d")||icon.equals("50n")) { //mist
+            im.setBackgroundResource(R.drawable.w_small_mist);
+
+        } else {
+            im.setBackgroundResource(R.drawable.w_small_fewcloud);
+        }
+    }
     public void setDrawableIcon(String icon, ImageView im) {
         if (icon.equals("01d")||icon.equals("01n")) { // clear sky
             im.setBackgroundResource(R.drawable.w_clear);

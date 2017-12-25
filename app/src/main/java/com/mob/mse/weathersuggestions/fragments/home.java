@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,12 @@ import android.widget.TextView;
 import com.mob.mse.weathersuggestions.JSON.JSONLoader;
 import com.mob.mse.weathersuggestions.R;
 import com.mob.mse.weathersuggestions.data.Utils;
+import com.mob.mse.weathersuggestions.model.ForecastResponse;
+import com.mob.mse.weathersuggestions.model.ItemForecast;
+import com.mob.mse.weathersuggestions.model.ItemLocation;
 import com.mob.mse.weathersuggestions.model.WeatherResponse;
+
+import java.util.ArrayList;
 
 
 /**
@@ -76,7 +82,7 @@ public class home extends Fragment {
     private LinearLayout listview;
     private RelativeLayout lyt_bg;
     private ProgressBar progressbar;
-    Utils utils = new Utils(getContext());
+    Utils utils = null ;
     double temp = 0 ;
     boolean b = true ;
 
@@ -84,6 +90,7 @@ public class home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        utils = new Utils(getContext());
         View root  = inflater.inflate(R.layout.fragment_home, container, false);
         tv_temp		= (TextView) root.findViewById(R.id.tv_temp);
         tv_desc		= (TextView) root.findViewById(R.id.tv_desc);
@@ -100,18 +107,32 @@ public class home extends Fragment {
         String loc = "46.1877542|6.1487415";
         String urlstring = Utils.getURLweather(loc);
         String forecast = Utils.getURLforecast(loc);
+        Log.e("forcase",forecast);
 
         JSONLoader.placeIdTask asyntask = new JSONLoader.placeIdTask(new JSONLoader.AsyncResponse() {
             @Override
-            public void processFinish(final WeatherResponse output1) {
-               // Log.d("final" ,output1.toString()) ;
-                tv_temp.setText(Double.toString(output1.main.temp)+" °C");
-                temp = output1.main.temp ;
-                tv_desc.setText(output1.weather.get(0).main.toUpperCase());
-                tv_day.setText(utils.getDay(output1.dt));
-                utils.setDrawableIcon(output1.weather.get(0).icon, img_icon);
-                utils.setLytColor(output1.weather.get(0).icon, lyt_bg);
-                tv_city.setText(output1.name.toString());
+            public void processFinish(final ItemLocation itemLocation) {
+
+                WeatherResponse weatherResponse = itemLocation.getJsonWeather() ;
+                ForecastResponse forecastResponse = itemLocation.getJsonForecast() ; 
+
+
+
+
+               // Log.d("final" ,weatherResponse.toString()) ;
+                tv_temp.setText(Double.toString(weatherResponse.main.temp)+" °C");
+                temp = weatherResponse.main.temp ;
+                tv_desc.setText(weatherResponse.weather.get(0).main.toUpperCase());
+                tv_day.setText(utils.getDay(weatherResponse.dt));
+                utils.setDrawableIcon(weatherResponse.weather.get(0).icon, img_icon);
+                int c = utils.setLytColor(weatherResponse.weather.get(0).icon, lyt_bg);
+
+
+// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+
+// finally change the color
+
+                tv_city.setText(weatherResponse.name.toString());
 
 
                 tv_temp.setOnClickListener(new View.OnClickListener() {
@@ -134,8 +155,16 @@ public class home extends Fragment {
                 });
 
 
-
-
+                ArrayList<ItemForecast> forecasts = new ArrayList<ItemForecast>();
+                for (int i = 1; i < 7; i++) {
+                    ItemForecast fcs = new ItemForecast();
+                    fcs.setTemp((forecastResponse.list.get(i).temp.day.toString()));
+                    fcs.setDay(utils.getDay(forecastResponse.list.get(i).dt));
+                    fcs.setDesc(forecastResponse.list.get(i).weather.get(0).main);
+                    fcs.setIcon(forecastResponse.list.get(i).weather.get(0).icon);
+                    forecasts.add(fcs);
+                }
+                setViewList(forecasts);
 
 
 
@@ -149,6 +178,22 @@ public class home extends Fragment {
         return root ;
     }
 
+
+    public void setViewList(ArrayList<ItemForecast> forecasts){
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        listview.removeAllViews();
+        for (ItemForecast obje : forecasts) {
+            View view;
+            view = inflater.inflate(R.layout.list_item_forecast, listview, false);
+
+            ((TextView) view.findViewById(R.id.tv_f_temp)).setText(obje.getTemp());
+            ((TextView) view.findViewById(R.id.tv_f_day)).setText(obje.getDay());
+            ((TextView) view.findViewById(R.id.tv_f_desc)).setText(obje.getDesc());
+            ImageView img =(ImageView) view.findViewById(R.id.img_f_icon);
+            utils.setDrawableSmallIcon(obje.getIcon(), img);
+
+            listview.addView(view);
+        }}
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

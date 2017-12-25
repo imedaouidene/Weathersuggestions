@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.mob.mse.weathersuggestions.model.ForecastResponse;
+import com.mob.mse.weathersuggestions.model.ItemLocation;
 import com.mob.mse.weathersuggestions.model.WeatherResponse;
 
 import org.json.JSONObject;
@@ -21,9 +22,9 @@ public class JSONLoader {
 
     public interface AsyncResponse {
 
-        void processFinish(WeatherResponse output1);
+        void processFinish(ItemLocation itemLocation);
     }
-    public static class placeIdTask extends AsyncTask<String, Void, WeatherResponse> {
+    public static class placeIdTask extends AsyncTask<String, Void, ItemLocation> {
 
         private String weatherString = null ;
         private  String forecastString = null ;
@@ -33,14 +34,18 @@ public class JSONLoader {
             delegate = asyncResponse;//Assigning call back interfacethrough constructor
         }
         WeatherResponse w ;
+        ForecastResponse f ;
+
         @Override
-        protected WeatherResponse  doInBackground(String... params) {
+        protected ItemLocation  doInBackground(String... params) {
             WeatherResponse weather		= new WeatherResponse();
             ForecastResponse forecast 	= new ForecastResponse();
+            ItemLocation itemLocation  = new ItemLocation() ;
             JSONObject weatherResponse = null;
             JSONObject forcastResponse = null ;
             String weatherurl=  params[0] ;
             String forecasturl =  params[1] ;
+
             try {
                 Gson gson = new Gson();
 
@@ -50,24 +55,30 @@ public class JSONLoader {
                 forecastString = forcastResponse.toString() ;
 
                 w= gson.fromJson(weatherString, WeatherResponse.class);
+                f = gson.fromJson(forecastString , ForecastResponse.class) ;
+                itemLocation.setJsonWeather(w);
+                itemLocation.setJsonForecast(f);
+                itemLocation.setId(w.id+"");
+                itemLocation.setName(w.name);
+                itemLocation.setCode(w.sys.country);
 
             } catch (Exception e) {
                 Log.d("Error", "Cannot process JSON results", e);
             }
 
 
-            return w;
+            return itemLocation;
         }
 
         @Override
-        protected void onPostExecute(WeatherResponse  json) {
+        protected void onPostExecute(ItemLocation  itemLocation) {
             try {
 
-                if(json != null){
-                    Log.w("i'm here",json.toString());
+                if(itemLocation != null){
+                    Log.w("i'm here",itemLocation.toString());
                     //Log.d("list",list.toString()) ;
 
-                    delegate.processFinish(json);
+                    delegate.processFinish(itemLocation);
 
                 }
             } catch (Exception e) {

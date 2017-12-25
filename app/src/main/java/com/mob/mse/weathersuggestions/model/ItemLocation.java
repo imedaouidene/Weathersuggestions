@@ -2,13 +2,13 @@ package com.mob.mse.weathersuggestions.model;
 
 public class ItemLocation {
 	private String id, name, code; //city attribute
-	private String jsonWeather;
-	private String jsonForecast;
+	private WeatherResponse jsonWeather;
+	private ForecastResponse jsonForecast;
 	public ItemLocation() {
 		super();
 	}
 	public ItemLocation(String id, String name, String code,
-                        String jsonWeather, String jsonForecast) {
+                        WeatherResponse jsonWeather, ForecastResponse jsonForecast) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -34,16 +34,14 @@ public class ItemLocation {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public String getJsonWeather() {
+	public WeatherResponse getJsonWeather() {
 		return jsonWeather;
 	}
-	public void setJsonWeather(String jsonWeather) {
+	public void setJsonWeather(WeatherResponse jsonWeather) {
 		this.jsonWeather = jsonWeather;
 	}
-	public String getJsonForecast() {
-		return jsonForecast;
-	}
-	public void setJsonForecast(String jsonForecast) {
+	public ForecastResponse getJsonForecast() {return jsonForecast;}
+	public void setJsonForecast(ForecastResponse jsonForecast) {
 		this.jsonForecast = jsonForecast;
 	}
 	

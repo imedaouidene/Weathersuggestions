@@ -53,6 +53,7 @@
                 android:textColor="@color/White"
                 android:background="@drawable/layout_click"
                 android:textStyle="bold"
+                android:contextClickable="true"
                 android:text="50 °C" />
 
             <TextView
