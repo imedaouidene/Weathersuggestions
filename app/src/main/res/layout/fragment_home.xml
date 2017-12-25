@@ -7,18 +7,18 @@
 
     <RelativeLayout
         android:id="@+id/lyt_bg"
-        android:background="#1FBFA3"
-        android:padding="15dp"
         android:layout_width="match_parent"
-        android:layout_height="250dp" >
+        android:layout_height="250dp"
+        android:background="#1FBFA3"
+        android:padding="15dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/img_icon"
@@ -40,28 +40,28 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:orientation="vertical" >
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/layout_click"
                 android:clickable="true"
+                android:contextClickable="true"
+                android:text="50 °C"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/White"
-                android:background="@drawable/layout_click"
-                android:textStyle="bold"
-                android:contextClickable="true"
-                android:text="50 °C" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/White"
-                android:text="CONDITION" />
+                android:text="CONDITION"
+                android:textColor="@color/White" />
 
         </LinearLayout>
 
@@ -69,16 +69,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:clickable="true"
             android:layout_alignParentTop="true"
-            android:orientation="vertical" >
+            android:clickable="true"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_city"
-                android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/layout_click"
+                android:clickable="true"
                 android:text="Address"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/White" />
@@ -87,28 +87,27 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical" >
-        </LinearLayout>
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical"></LinearLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true" >
+            android:layout_alignParentRight="true">
 
             <Button
                 android:id="@+id/bt_refresh"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/ic_refresh"/>
+                android:background="@drawable/ic_refresh" />
 
             <ProgressBar
                 android:id="@+id/progressbar"
-                android:visibility="gone"
                 android:layout_width="30dp"
-                android:layout_height="30dp" />
+                android:layout_height="30dp"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -116,17 +115,18 @@
         <Button
             android:id="@+id/bt_theme"
             android:layout_width="30dp"
-            android:layout_height="30dp" android:layout_alignParentLeft="true"
+            android:layout_height="30dp"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:background="@drawable/ic_theme" />
 
         <Button
-            android:id="@+id/bt_map"
+            android:id="@+id/bt_location"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/ic_map" />
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_location" />
 
 
     </RelativeLayout>

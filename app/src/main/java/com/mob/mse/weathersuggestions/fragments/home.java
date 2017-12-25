@@ -1,6 +1,7 @@
 package com.mob.mse.weathersuggestions.fragments;
 
 import android.content.Context;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.mob.mse.weathersuggestions.JSON.JSONLoader;
 import com.mob.mse.weathersuggestions.R;
+import com.mob.mse.weathersuggestions.data.GPSTracker;
 import com.mob.mse.weathersuggestions.data.Utils;
 import com.mob.mse.weathersuggestions.model.ForecastResponse;
 import com.mob.mse.weathersuggestions.model.ItemForecast;
@@ -98,13 +100,20 @@ public class home extends Fragment {
         tv_day		= (TextView) root.findViewById(R.id.tv_day);
         bt_refresh	= (Button) root.findViewById(R.id.bt_refresh);
         bt_theme	= (Button) root.findViewById(R.id.bt_theme);
-        bt_map		= (Button) root.findViewById(R.id.bt_map);
+        bt_map		= (Button) root.findViewById(R.id.bt_location);
         img_icon	= (ImageView) root.findViewById(R.id.img_icon);
         progressbar	= (ProgressBar) root.findViewById(R.id.progressbar);
         lyt_bg		= (RelativeLayout) root.findViewById(R.id.lyt_bg);
         listview 	= (LinearLayout) root.findViewById(R.id.listview);
 
         String loc = "46.1877542|6.1487415";
+
+
+        GPSTracker gps = new GPSTracker(getContext()) ;
+
+        Location myloc = gps.getLocation();
+        loc = Double.toString(myloc.getLatitude())+"|"+Double.toString(myloc.getLongitude()) ;
+        Log.e("location",loc) ;
         String urlstring = Utils.getURLweather(loc);
         String forecast = Utils.getURLforecast(loc);
         Log.e("forcase",forecast);
@@ -120,7 +129,7 @@ public class home extends Fragment {
 
 
                // Log.d("final" ,weatherResponse.toString()) ;
-                tv_temp.setText(Double.toString(weatherResponse.main.temp)+" °C");
+                tv_temp.setText(Integer.toString((int)(weatherResponse.main.temp+0.0f))+" °C");
                 temp = weatherResponse.main.temp ;
                 tv_desc.setText(weatherResponse.weather.get(0).main.toUpperCase());
                 tv_day.setText(utils.getDay(weatherResponse.dt));
@@ -141,13 +150,14 @@ public class home extends Fragment {
 
                         if (b) {
                         double f = utils.C2F(temp) ;
+                        int arrondi = (int)(f+0.5f) ;
 
-                        tv_temp.setText(Double.toString(f)+" °F");
+                        tv_temp.setText(Integer.toString(arrondi)+" °F");
                          b = false ;
 
                             } else {
                             b=true ;
-                            tv_temp.setText(Double.toString(temp)+" °C");
+                            tv_temp.setText(Integer.toString((int)(temp+0.0f))+" °C");
 
                         }
                         }
@@ -158,7 +168,7 @@ public class home extends Fragment {
                 ArrayList<ItemForecast> forecasts = new ArrayList<ItemForecast>();
                 for (int i = 1; i < 7; i++) {
                     ItemForecast fcs = new ItemForecast();
-                    fcs.setTemp((forecastResponse.list.get(i).temp.day.toString()));
+                    fcs.setTemp(Integer.toString((int)(forecastResponse.list.get(i).temp.day+0.0f))+"°C");
                     fcs.setDay(utils.getDay(forecastResponse.list.get(i).dt));
                     fcs.setDesc(forecastResponse.list.get(i).weather.get(0).main);
                     fcs.setIcon(forecastResponse.list.get(i).weather.get(0).icon);
