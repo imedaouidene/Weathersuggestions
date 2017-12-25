@@ -1,6 +1,5 @@
 package com.mob.mse.weathersuggestions.data;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -17,10 +16,10 @@ import java.util.Date;
  * Created by Imed on 24-Dec-17.
  */
 
-public class Utils extends Activity{
+public class Utils{
     Context context ;
-    public Utils(Context context1) {
-    this.context = context1 ;
+    public Utils(Context context) {
+    this.context = context ;
     }
 
     public static final String WEATHER_API_KEY = "a1f506c969f20b0814e8650d99f1e6c5";
@@ -40,7 +39,14 @@ public class Utils extends Activity{
         Log.d("URL weather", URL);
         return URL;
     }
+    public double C2F(double temp) {
+         double f = 0 ;
 
+        f = temp *1.8 +32 ;
+
+
+        return f ;
+    }
     private static String[] splitLoc(String loc){
         //Double d=Double.valueOf(s);
         String s[] = null;

@@ -77,6 +77,9 @@ public class home extends Fragment {
     private RelativeLayout lyt_bg;
     private ProgressBar progressbar;
     Utils utils = new Utils(getContext());
+    double temp = 0 ;
+    boolean b = true ;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,17 +100,38 @@ public class home extends Fragment {
         String loc = "46.1877542|6.1487415";
         String urlstring = Utils.getURLweather(loc);
         String forecast = Utils.getURLforecast(loc);
+
         JSONLoader.placeIdTask asyntask = new JSONLoader.placeIdTask(new JSONLoader.AsyncResponse() {
             @Override
-            public void processFinish(WeatherResponse output1) {
+            public void processFinish(final WeatherResponse output1) {
                // Log.d("final" ,output1.toString()) ;
-                tv_temp.setText(Double.toString(output1.main.temp));
-
+                tv_temp.setText(Double.toString(output1.main.temp)+" °C");
+                temp = output1.main.temp ;
                 tv_desc.setText(output1.weather.get(0).main.toUpperCase());
                 tv_day.setText(utils.getDay(output1.dt));
                 utils.setDrawableIcon(output1.weather.get(0).icon, img_icon);
                 utils.setLytColor(output1.weather.get(0).icon, lyt_bg);
+                tv_city.setText(output1.name.toString());
 
+
+                tv_temp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (b) {
+                        double f = utils.C2F(temp) ;
+
+                        tv_temp.setText(Double.toString(f)+" °F");
+                         b = false ;
+
+                            } else {
+                            b=true ;
+                            tv_temp.setText(Double.toString(temp)+" °C");
+
+                        }
+                        }
+
+                });
 
 
 
@@ -124,6 +148,7 @@ public class home extends Fragment {
 
         return root ;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
