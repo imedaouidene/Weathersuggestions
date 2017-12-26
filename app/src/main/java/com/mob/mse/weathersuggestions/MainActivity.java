@@ -1,8 +1,12 @@
 package com.mob.mse.weathersuggestions;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -42,7 +46,46 @@ ConnectionDetector cd ;
 
 
     }
+    LocationManager locationManager ;
+    boolean GpsStatus ;
 
+
+    public void CheckGpsStatus(){
+
+        locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+        GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+    }
+
+
+
+    public void showSettingsAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        // Setting Dialog Title
+        alertDialog.setTitle("GPS not active");
+
+        // Setting Dialog Message
+        alertDialog.setMessage("Please consider activating your GPS");
+
+        // On pressing Settings button
+        alertDialog.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        checkconnection() ;
+
+
+
+                    }
+                });
+
+
+
+        // Showing Alert Message
+        alertDialog.create().show();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,12 +115,12 @@ ConnectionDetector cd ;
 
             // to handle the case where the user grants the permission. See the documentation
 
-        }else {
+        }else{
             checkconnection();
-
         }
 
     }
+
     Snackbar nointernet;
     Thread timerThread ;
     View view ;
@@ -94,7 +137,18 @@ ConnectionDetector cd ;
 
 
         boolean  b = cd.isConnectingToInternet() ;
+
         if (b) {
+
+
+            CheckGpsStatus();
+           // Toast.makeText(getApplicationContext(),Boolean.toString(GpsStatus),Toast.LENGTH_LONG).show();
+            if (GpsStatus) {
+
+
+
+
+
             try {
 
                 timerThread = new Thread(){
@@ -116,6 +170,12 @@ ConnectionDetector cd ;
             } catch (Exception e){
                 Log.w("ERROR","ERROR in snack bar   "+e.toString() );
 
+            }
+
+
+            }else{
+                //Toast.makeText(getApplicationContext(),"I'm here ",Toast.LENGTH_LONG).show();
+                showSettingsAlert();
             }
         }else{
             try {

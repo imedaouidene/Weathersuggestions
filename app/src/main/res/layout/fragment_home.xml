@@ -63,6 +63,7 @@
                 android:text="CONDITION"
                 android:textColor="@color/White" />
 
+
         </LinearLayout>
 
         <LinearLayout
@@ -91,7 +92,7 @@
             android:layout_alignParentLeft="true"
             android:orientation="vertical"></LinearLayout>
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -129,8 +130,39 @@
             android:background="@drawable/ic_location" />
 
 
-    </RelativeLayout>
+    -->
 
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+        <TextView
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Humidity : 75 %"
+            android:textColor="@color/White" />
+
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:id="@+id/tv_wind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wind speed  : 75 km/hr"
+            android:textColor="@color/White" />
+
+
+
+
+
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
@@ -142,6 +174,9 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
         </LinearLayout>
+
+
+
     </ScrollView>
 
     <ListView

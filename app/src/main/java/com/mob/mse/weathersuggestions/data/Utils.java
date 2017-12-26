@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.mob.mse.weathersuggestions.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,6 +23,13 @@ public class Utils{
     this.context = context ;
     }
 
+    public String getLastUpdate(Long l){
+        Date curDate = new Date(l *1000);
+        //Wed, 4 Jul 2001 12:08:56 -0700
+        SimpleDateFormat format = new SimpleDateFormat("EEE d MMM yyyy HH:mm");
+        String dateToStr = format.format(curDate);
+        return "LAST UPDATE : "+dateToStr.toUpperCase();
+    }
     public static final String WEATHER_API_KEY = "a1f506c969f20b0814e8650d99f1e6c5";
 
     public static String getURLweather(String loc){

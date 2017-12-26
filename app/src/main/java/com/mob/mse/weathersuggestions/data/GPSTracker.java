@@ -49,6 +49,15 @@ public class GPSTracker extends Service implements LocationListener {
 
 
 
+    String getname(){
+        String name="error" ;
+
+
+
+        return name ;
+    }
+
+
 
 
 

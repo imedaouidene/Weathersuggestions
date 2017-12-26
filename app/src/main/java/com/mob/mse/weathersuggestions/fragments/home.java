@@ -9,10 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -78,15 +76,18 @@ public class home extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private TextView tv_temp, tv_desc, tv_city, tv_day;
-    private Button bt_refresh, bt_theme, bt_map;
+    private TextView tv_temp, tv_desc, tv_city, tv_day ,tv_humidity,tv_wind;
+
     private ImageView img_icon;
     private LinearLayout listview;
     private RelativeLayout lyt_bg;
-    private ProgressBar progressbar;
+    //private ProgressBar progressbar;
     Utils utils = null ;
     double temp = 0 ;
     boolean b = true ;
+    boolean cityb = false ;
+    String city = "none" , country = "none" ;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,11 +99,14 @@ public class home extends Fragment {
         tv_desc		= (TextView) root.findViewById(R.id.tv_desc);
         tv_city		= (TextView) root.findViewById(R.id.tv_city);
         tv_day		= (TextView) root.findViewById(R.id.tv_day);
-        bt_refresh	= (Button) root.findViewById(R.id.bt_refresh);
-        bt_theme	= (Button) root.findViewById(R.id.bt_theme);
-        bt_map		= (Button) root.findViewById(R.id.bt_location);
+        tv_humidity = (TextView)root.findViewById(R.id.tv_humidity);
+        tv_wind = (TextView)root.findViewById(R.id.tv_wind);
+
+        //bt_refresh	= (Button) root.findViewById(R.id.bt_refresh);
+        //bt_theme	= (Button) root.findViewById(R.id.bt_theme);
+        //bt_map		= (Button) root.findViewById(R.id.bt_location);
         img_icon	= (ImageView) root.findViewById(R.id.img_icon);
-        progressbar	= (ProgressBar) root.findViewById(R.id.progressbar);
+        //progressbar	= (ProgressBar) root.findViewById(R.id.progressbar);
         lyt_bg		= (RelativeLayout) root.findViewById(R.id.lyt_bg);
         listview 	= (LinearLayout) root.findViewById(R.id.listview);
 
@@ -134,15 +138,29 @@ public class home extends Fragment {
                 tv_desc.setText(weatherResponse.weather.get(0).main.toUpperCase());
                 tv_day.setText(utils.getDay(weatherResponse.dt));
                 utils.setDrawableIcon(weatherResponse.weather.get(0).icon, img_icon);
+                tv_humidity.setText("Humidity : "+Double.toString(weatherResponse.main.humidity)+" %");
+                tv_wind.setText("Wind speed  : "+Double.toString(weatherResponse.wind.speed)+" km/hr");
                 int c = utils.setLytColor(weatherResponse.weather.get(0).icon, lyt_bg);
 
 
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
 
 // finally change the color
-
-                tv_city.setText(weatherResponse.name.toString());
-
+                city = weatherResponse.name ;
+                country = weatherResponse.sys.country ;
+                tv_city.setText(city);
+                tv_city.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (cityb){
+                            tv_city.setText(city);
+                            cityb = !cityb ;
+                        }else{
+                            tv_city.setText(country);
+                            cityb = !cityb ;
+                        }
+                    }
+                });
 
                 tv_temp.setOnClickListener(new View.OnClickListener() {
                     @Override
