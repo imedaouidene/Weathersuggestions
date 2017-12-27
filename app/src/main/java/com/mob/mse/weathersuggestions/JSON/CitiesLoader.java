@@ -102,9 +102,11 @@ public class CitiesLoader {
                     forecastString = forcastResponse.toString();
 
                     w = gson.fromJson(weatherString, WeatherResponse.class);
-
+                    try{
                     f = gson.fromJson(forecastString , ForecastResponse.class) ;
-
+                    }catch(Exception e){
+                        Log.e("error here ?" , e.toString())
+;                    }
                     itemLocation.setJsonWeather(w);
                     itemLocation.setJsonForecast(f);
                     itemLocation.setId(w.id + "");
