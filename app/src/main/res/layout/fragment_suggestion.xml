@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="2"
+    tools:context="com.mob.mse.weathersuggestions.fragments.suggestion">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="vertical">
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:clickable="true"
+        android:layout_marginTop="5dp"
+        android:text="Hot cities "
+        android:textAppearance="?android:attr/textAppearanceInverse"
+        android:textColor="@color/Crimson"
+         />
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/hot_cities"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+
+
+    </ScrollView>
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    android:layout_weight="1">
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:clickable="true"
+        android:layout_marginTop="5dp"
+        android:text="Cold cities "
+        android:textAppearance="?android:attr/textAppearanceInverse"
+        android:textColor="@color/RoyalBlue"
+        />
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/cold_cities"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+</LinearLayout>
+</LinearLayout>

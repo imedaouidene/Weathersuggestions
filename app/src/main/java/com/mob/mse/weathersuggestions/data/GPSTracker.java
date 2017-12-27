@@ -16,7 +16,7 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-
+// api.openweathermap.org/data/2.5/weather?q=geneva&appid=a1f506c969f20b0814e8650d99f1e6c5
 import com.mob.mse.weathersuggestions.MainActivity;
 
 public class GPSTracker extends Service implements LocationListener {

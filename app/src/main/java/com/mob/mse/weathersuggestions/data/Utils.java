@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import com.mob.mse.weathersuggestions.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -47,6 +48,38 @@ public class Utils{
         Log.d("URL weather", URL);
         return URL;
     }
+
+
+    public static String getcityURLweather(String name){
+        Uri.Builder builder = new Uri.Builder();
+        String URL;
+        builder.scheme("http").authority("api.openweathermap.org")
+                .appendPath("data").appendPath("2.5")
+                .appendPath("weather")
+                .appendQueryParameter("q", name)
+
+                .appendQueryParameter("mode", "json")
+                .appendQueryParameter("units", "metric")
+                .appendQueryParameter("APPID", WEATHER_API_KEY);
+        URL = builder.build().toString();
+        Log.d("URL weather city", URL);
+        return URL;
+    }
+    public static String getcityURLForecast(String name){
+        Uri.Builder builder = new Uri.Builder();
+        String URL;
+        builder.scheme("http").authority("api.openweathermap.org")
+                .appendPath("data").appendPath("2.5")
+                .appendPath("forecast")
+                .appendQueryParameter("q", name)
+                .appendQueryParameter("mode", "json")
+                .appendQueryParameter("units", "metric")
+                .appendQueryParameter("APPID", WEATHER_API_KEY);
+        URL = builder.build().toString();
+        Log.d("URL forecast weather : ", URL);
+        return URL;
+    }
+
     public double C2F(double temp) {
          double f = 0 ;
 
@@ -80,6 +113,20 @@ public class Utils{
         Log.d("URL forecast", URL);
         return URL;
     }
+    //https://flagpedia.net/data/flags/normal/ch.png
+    public static String getFlagURL(String country){
+        Uri.Builder builder = new Uri.Builder();
+        String URL;
+        builder.scheme("https").authority("flagpedia.net")
+                .appendPath("data").appendPath("flags")
+                .appendPath("normal").appendPath(country+".png") ;
+
+        URL = builder.build().toString();
+        Log.d("URL flag", URL);
+        return URL;
+    }
+
+
 
     public int setLytColor(String icon, RelativeLayout lyt){
 
@@ -215,5 +262,31 @@ public class Utils{
                 return "Saturday";
         }
         return null;
+    }
+
+    public ArrayList<String[]> generate_cities(String[] countries1) {
+
+        ArrayList<String[]> to_return = new ArrayList<>();
+                String[]     weather = new String[countries1.length] ;
+                String[]     forcast = new String[countries1.length] ;
+        for (int i = 0 ; i< countries1.length ; i++ ){
+
+            weather[i] = getcityURLweather(countries1[i]).toString();
+            forcast[i] = getcityURLForecast(countries1[i]).toString() ;
+
+
+
+
+        }
+
+
+
+
+
+
+
+        to_return.add(weather);
+        to_return.add(forcast);
+     return to_return ;
     }
 }
