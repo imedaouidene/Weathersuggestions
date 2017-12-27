@@ -56,5 +56,6 @@ public class ForecastResponse {
 		public Double speed;
 		public Double deg;
 		public Double clouds;
+		public double snow ;
 	}
 }

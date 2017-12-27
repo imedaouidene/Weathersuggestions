@@ -1,6 +1,7 @@
 package com.mob.mse.weathersuggestions.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,11 +17,12 @@ import android.widget.Toast;
 import com.mob.mse.weathersuggestions.JSON.CitiesLoader;
 import com.mob.mse.weathersuggestions.R;
 import com.mob.mse.weathersuggestions.data.Utils;
-import com.mob.mse.weathersuggestions.model.ItemLocation;
+import com.mob.mse.weathersuggestions.model.ItemCity;
 import com.mob.mse.weathersuggestions.model.WeatherResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.mob.mse.weathersuggestions.Main.countries1;
 
@@ -74,38 +76,61 @@ public class suggestion extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    Utils utils ;
+
+    Utils utils;
 
 
-    public void setViewList(ArrayList<ItemLocation> cities){
+    public void setViewList(ArrayList<ItemCity> cities) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         hot_cities.removeAllViews();
         cold_cities.removeAllViews();
-        for (ItemLocation city : cities){
+        int i, j;
+        i = 0;
+        j = 0;
+        for (ItemCity city : cities) {
 
 
+            WeatherResponse weatherResponse = city.getItemLocation().getJsonWeather();
+            Log.e("desc", weatherResponse.weather.get(0).description.toString());
+            View view;
 
-            WeatherResponse weatherResponse = city.getJsonWeather() ;
-            Log.e("desc" , weatherResponse.weather.get(0).description.toString() ) ;
-            View view ;
-            if (weatherResponse.main.temp>10){
+            String cold_color[] = getContext().getResources().getStringArray(R.array.cold_array);
+            String hot_color[] = getContext().getResources().getStringArray(R.array.hot_array);
+            int len1 = cold_color.length;
+            int len2 = hot_color.length;
+            if (weatherResponse.main.temp > 10) {
 
 
                 view = inflater.inflate(R.layout.list_item_city, hot_cities, false);
 
-                ((TextView) view.findViewById(R.id.tv_f_temp)).setText(Integer.toString((int)(weatherResponse.main.temp+0.0f))+"°C");
+                ((TextView) view.findViewById(R.id.tv_f_temp)).setText(Integer.toString((int) (weatherResponse.main.temp + 0.0f)) + "°C");
                 ((TextView) view.findViewById(R.id.tv_city_name)).setText(weatherResponse.name);
                 ((TextView) view.findViewById(R.id.tv_f_desc)).setText(weatherResponse.weather.get(0).main);
-                Picasso.with(getContext()).load(Utils.getFlagURL(weatherResponse.sys.country.toLowerCase())).into((ImageView)view.findViewById(R.id.img_flag));
+
+                String min = Integer.toString((int) (weatherResponse.main.temp_min + 0.0f));
+                String max = Integer.toString((int) (weatherResponse.main.temp_max + 0.0f));
+                utils.setDrawableIcon(weatherResponse.weather.get(0).icon, ((ImageView) view.findViewById(R.id.img_f_icon)));
+                ((TextView) view.findViewById(R.id.tv_f_maxmin)).setText(min + "°/" + max + "°");
+                view.setBackgroundColor(Color.parseColor(hot_color[i]));
+
+                if (i < len2 - 1) {
+                    i += 1;
+                }
+
+
+                Picasso.with(getContext()).load(Utils.getFlagURL(weatherResponse.sys.country.toLowerCase())).into((ImageView) view.findViewById(R.id.img_flag));
+
+
                 hot_cities.addView(view);
 
-            }else{
-
+            } else {
                 view = inflater.inflate(R.layout.list_item_city, cold_cities, false);
-                ((TextView) view.findViewById(R.id.tv_f_temp)).setText((int)(weatherResponse.main.temp+0.0f)+"°C");
+                ((TextView) view.findViewById(R.id.tv_f_temp)).setText((int) (weatherResponse.main.temp + 0.0f) + "°C");
                 ((TextView) view.findViewById(R.id.tv_city_name)).setText(weatherResponse.name);
                 ((TextView) view.findViewById(R.id.tv_f_desc)).setText(weatherResponse.weather.get(0).main);
-                Picasso.with(getContext()).load(Utils.getFlagURL(weatherResponse.sys.country.toLowerCase())).into((ImageView)view.findViewById(R.id.img_flag));
+                Picasso.with(getContext()).load(Utils.getFlagURL(weatherResponse.sys.country.toLowerCase())).into((ImageView) view.findViewById(R.id.img_flag));
+                view.setBackgroundColor(Color.parseColor(cold_color[j]));
+                if (j < len1 - 1) j = j + 1;
 
                 cold_cities.addView(view);
 
@@ -126,53 +151,48 @@ public class suggestion extends Fragment {
         }*/
 
 
-
-
-
-
         }
-
 
 
     }
 
 
-    LinearLayout hot_cities, cold_cities ;
+    LinearLayout hot_cities, cold_cities;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root =  inflater.inflate(R.layout.fragment_suggestion, container, false);
+        View root = inflater.inflate(R.layout.fragment_suggestion, container, false);
         utils = new Utils(getContext());
 
-        hot_cities = (LinearLayout) root.findViewById(R.id.hot_cities) ;
-        cold_cities = (LinearLayout) root.findViewById(R.id.cold_cities) ;
+        hot_cities = (LinearLayout) root.findViewById(R.id.hot_cities);
+        cold_cities = (LinearLayout) root.findViewById(R.id.cold_cities);
 
 
         CitiesLoader.placeIdTask citiesLoader = new CitiesLoader.placeIdTask(new CitiesLoader.AsyncResponse() {
 
 
-
             @Override
-            public void processFinish(ArrayList<ItemLocation> arrayList) {
-               // Toast.makeText(getContext(), "ok I'm here", Toast.LENGTH_SHORT).show();
-                Log.e("0",arrayList.get(0).getJsonWeather().name) ;
+            public void processFinish(ArrayList<ItemCity> arrayList) {
+                // Toast.makeText(getContext(), "ok I'm here", Toast.LENGTH_SHORT).show();
+                Log.e("0", arrayList.get(0).getItemLocation().getJsonWeather().name);
                 //Log.e("1",)
-            setViewList(arrayList);
+                Collections.sort(arrayList);
+                setViewList(arrayList);
 
 
             }
-        }  , getContext()) ;
+        }, getContext());
 
 
-        String[] weatherurls,forcasturls ;
+        String[] weatherurls, forcasturls;
         ArrayList<String[]> infos = utils.generate_cities(countries1);
         weatherurls = infos.get(0);
-        forcasturls = infos.get(1) ;
+        forcasturls = infos.get(1);
 
-       //Log.e("weatherurls",weatherurls[0]) ;
-       // Log.e("forcasturls",forcasturls[1]) ;
+        //Log.e("weatherurls",weatherurls[0]) ;
+        // Log.e("forcasturls",forcasturls[1]) ;
 
 
 
@@ -201,21 +221,27 @@ public class suggestion extends Fragment {
 
             }
         });*/
-        citiesLoader.execute(weatherurls,forcasturls);
-
+        citiesLoader.execute(weatherurls, forcasturls);
 
 
         hot_cities.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               String text =  ((TextView) view.findViewById(R.id.tv_city_name)).getText().toString();
+                String text = ((TextView) view.findViewById(R.id.tv_city_name)).getText().toString();
+                try {
 
-                Toast.makeText(getContext(),text,Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(getContext(), Integer.toString(hot_cities.getChildCount()), Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Log.e("errorrr", e.toString());
+
+                }
+                //Toast.makeText(getContext(),text,Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        return  root ;
+        return root;
 
     }
 

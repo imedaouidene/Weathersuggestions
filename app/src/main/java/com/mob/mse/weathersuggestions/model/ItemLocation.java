@@ -1,6 +1,6 @@
 package com.mob.mse.weathersuggestions.model;
 
-public class ItemLocation {
+public class ItemLocation  {
 	private String id, name, code; //city attribute
 	private WeatherResponse jsonWeather;
 	private ForecastResponse jsonForecast;
@@ -44,5 +44,7 @@ public class ItemLocation {
 	public void setJsonForecast(ForecastResponse jsonForecast) {
 		this.jsonForecast = jsonForecast;
 	}
-	
+
+
+
 }

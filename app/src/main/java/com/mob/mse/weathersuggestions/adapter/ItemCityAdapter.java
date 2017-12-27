@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mob.mse.weathersuggestions.R;
+import com.mob.mse.weathersuggestions.data.Utils;
 import com.mob.mse.weathersuggestions.data.converting_data;
 import com.mob.mse.weathersuggestions.model.ItemCity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -54,9 +56,9 @@ public class ItemCityAdapter extends ArrayAdapter<ItemCity> {
 			convertView = layoutInflater.inflate(viewRes,parent,false);
 			holder = new ViewHolder();
 			holder.tv_f_temp	= (TextView) convertView.findViewById(R.id.tv_f_temp);
-			holder.tv_f_city		= (TextView) convertView.findViewById(R.id.tv_city);
+			holder.tv_f_city	= (TextView) convertView.findViewById(R.id.tv_city);
 			holder.tv_f_desc	= (TextView) convertView.findViewById(R.id.tv_f_desc);
-			holder.img_f_icon	= (ImageView) convertView.findViewById(R.id.img_f_icon);
+			holder.img_f_icon	= (ImageView) convertView.findViewById(R.id.img_flag);
 			convertView.setTag(holder);
 			
 		} else {
@@ -65,7 +67,11 @@ public class ItemCityAdapter extends ArrayAdapter<ItemCity> {
 		holder.tv_f_temp.setText(itemDetailsrrayList.get(position).getTemp());
 		holder.tv_f_city.setText(itemDetailsrrayList.get(position).getCity());
 		holder.tv_f_desc.setText(itemDetailsrrayList.get(position).getDesc());
+
 		conv_data.setDrawableSmallIcon(itemDetailsrrayList.get(position).getIcon(), holder.img_f_icon);
+		Picasso.with(getContext())
+				.load(Utils.getFlagURL(itemDetailsrrayList.get(position).getItemLocation().getJsonWeather().sys.country.toLowerCase()))
+				.into(holder.img_f_icon);
 		
 		return convertView;
 	}

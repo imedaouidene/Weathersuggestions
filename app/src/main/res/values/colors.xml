@@ -32,6 +32,41 @@
 
     </string-array>
 
+
+
+    <string-array name="cold_array">
+        <item >#2d65ff</item>  	<!-- Clear color -->
+        <item >#3075ff</item> 	<!-- Few cloud color -->
+        <item >#5683ff</item> 	<!-- scattered cloud color -->
+        <item >#658bff</item> 	<!-- broken clouds color -->
+        <item >#7da0ff</item> >	<!-- shower rain color -->
+        <item >#84adff</item>
+        <item >#94d4ff</item>
+        <item >#9bd7f2</item>
+        <item >#88fff7</item>
+
+    </string-array>
+
+
+
+    <string-array name="hot_array">
+        <item >#ff5353</item>  	<!-- Clear color -->
+        <item >#ff5f5f</item> 	<!-- Few cloud color -->
+        <item >#fd7878</item> 	<!-- scattered cloud color -->
+        <item >#ff8484</item> 	<!-- broken clouds color -->
+        <item >#fd8b8b</item> >	<!-- shower rain color -->
+        <item >#ff9d9d</item>
+        <item >#ffacac</item>
+        <item >#fcbfbf</item>
+        <item >#ffd6d6</item>
+
+    </string-array>
+
+
+
+
+
+
     <color name="white">#FFFFFF</color>
 
     <color name="colorPrimary">#3F51B5</color>

@@ -29,10 +29,10 @@ public class Main extends AppCompatActivity
 */
 
 
-    public static String[] countries1 = {"Brasilia", "Havana", "Miami",  "Singapore", "Mumbai",
+    public static String[] countries1 = {"Brasilia", "Miami",  "Singapore", "Mumbai",
             "Lima", "Dubai", "Sydney", "Bangkok",  "Taipei", "Cairo", "Beirut", "Rabat"
          , "Havana", "Darwin", "Santiago","Tunis", "Istanbul", "Rome", "Barcelona", "Paris", "London", "Madrid",
-            "Berlin", "Frankfurt", "Prague", "Stockholm", "Moscow", "Tokyo",  "Seoul", "Montreal", "Toronto",
+            "Berlin", "Frankfurt", "Prague", "Stockholm", "Moscow,RU", "Tokyo",  "Seoul", "Montreal", "Toronto","Bangkok"
     };
 
 
@@ -50,6 +50,19 @@ public class Main extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            drawer.openDrawer(GravityCompat.START);
+
+
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        home fragment = new home() ;
+        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -91,6 +104,7 @@ public class Main extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.home) {
+
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             home fragment = new home() ;
@@ -118,7 +132,6 @@ public class Main extends AppCompatActivity
             window.setStatusBarColor(ContextCompat.getColor(this,R.color.white));
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            home fragment = new home() ;
             suggestion suggestion_frag = new suggestion() ;
             fragmentTransaction.add(R.id.fragment_container, suggestion_frag);
             fragmentTransaction.commit();
