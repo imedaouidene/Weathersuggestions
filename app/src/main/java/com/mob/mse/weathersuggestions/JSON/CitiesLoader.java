@@ -94,8 +94,13 @@ public class CitiesLoader {
                 try {
                     Gson gson = new Gson();
                     Log.e(" size : ", Integer.toString(myarray.size()));
+                    try {
+                        Log.e("weatherrrrrr",strings[0][i]) ;
+                    weatherResponse = getJSON(strings[0][i]);}
 
-                    weatherResponse = getJSON(strings[0][i]);
+
+                    catch(Exception e){
+                        Log.e("!!" , e.toString());}
                     forcastResponse = getJSON(strings[1][i]);
 
                     weatherString = weatherResponse.toString();

@@ -11,11 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mob.mse.weathersuggestions.JSON.CitiesLoader;
 import com.mob.mse.weathersuggestions.R;
+import com.mob.mse.weathersuggestions.adapter.ItemCityAdapter;
 import com.mob.mse.weathersuggestions.data.Utils;
 import com.mob.mse.weathersuggestions.model.ItemCity;
 import com.mob.mse.weathersuggestions.model.WeatherResponse;
@@ -37,6 +38,7 @@ import static com.mob.mse.weathersuggestions.Main.countries1;
 public class suggestion extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -80,6 +82,7 @@ public class suggestion extends Fragment {
     Utils utils;
 
 
+
     public void setViewList(ArrayList<ItemCity> cities) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         hot_cities.removeAllViews();
@@ -91,8 +94,9 @@ public class suggestion extends Fragment {
 
 
             WeatherResponse weatherResponse = city.getItemLocation().getJsonWeather();
-            Log.e("desc", weatherResponse.weather.get(0).description.toString());
+            Log.e("desc", weatherResponse.weather.get(0).main);
             View view;
+
 
             String cold_color[] = getContext().getResources().getStringArray(R.array.cold_array);
             String hot_color[] = getContext().getResources().getStringArray(R.array.hot_array);
@@ -127,7 +131,7 @@ public class suggestion extends Fragment {
                 view = inflater.inflate(R.layout.list_item_city, cold_cities, false);
                 ((TextView) view.findViewById(R.id.tv_f_temp)).setText((int) (weatherResponse.main.temp + 0.0f) + "°C");
                 ((TextView) view.findViewById(R.id.tv_city_name)).setText(weatherResponse.name);
-                ((TextView) view.findViewById(R.id.tv_f_desc)).setText(weatherResponse.weather.get(0).main);
+                ((TextView) view.findViewById(R.id.tv_f_desc)).setText(weatherResponse.weather.get(0).description);
                 Picasso.with(getContext()).load(Utils.getFlagURL(weatherResponse.sys.country.toLowerCase())).into((ImageView) view.findViewById(R.id.img_flag));
                 view.setBackgroundColor(Color.parseColor(cold_color[j]));
                 if (j < len1 - 1) j = j + 1;
@@ -158,7 +162,8 @@ public class suggestion extends Fragment {
 
 
     LinearLayout hot_cities, cold_cities;
-
+    ListView hot_cities_listView,cold_cities_listView;
+    ItemCityAdapter coldadapter,hotadapter ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -166,8 +171,12 @@ public class suggestion extends Fragment {
         View root = inflater.inflate(R.layout.fragment_suggestion, container, false);
         utils = new Utils(getContext());
 
-        hot_cities = (LinearLayout) root.findViewById(R.id.hot_cities);
-        cold_cities = (LinearLayout) root.findViewById(R.id.cold_cities);
+        //hot_cities = (LinearLayout) root.findViewById(R.id.hot_cities);
+        //cold_cities = (LinearLayout) root.findViewById(R.id.cold_cities);
+
+        hot_cities_listView = (ListView)root.findViewById(R.id.hot_cities) ;
+        cold_cities_listView  = (ListView)root.findViewById(R.id.cold_cities) ;
+
 
 
         CitiesLoader.placeIdTask citiesLoader = new CitiesLoader.placeIdTask(new CitiesLoader.AsyncResponse() {
@@ -179,7 +188,27 @@ public class suggestion extends Fragment {
                 Log.e("0", arrayList.get(0).getItemLocation().getJsonWeather().name);
                 //Log.e("1",)
                 Collections.sort(arrayList);
-                setViewList(arrayList);
+                ArrayList<ItemCity> coldarray = new ArrayList<>() ;
+                ArrayList<ItemCity> hotarray = new ArrayList<>() ;
+
+                for (int i = 0 ; i<arrayList.size();i++){
+                    if (arrayList.get(i).getItemLocation().getJsonWeather().main.temp<10) {
+                        coldarray.add((ItemCity)arrayList.get(i));
+                        //Toast.makeText(getContext(),Double.toString(arrayList.get(i).getItemLocation().getJsonWeather().main.temp),Toast.LENGTH_SHORT).show();
+                    }else{
+
+                        hotarray.add((ItemCity)arrayList.get(i));
+
+                    }
+                }
+
+                coldadapter = new ItemCityAdapter(getContext(),android.R.layout.simple_list_item_1, coldarray ) ;
+                hotadapter = new ItemCityAdapter(getContext(),android.R.layout.simple_list_item_1, hotarray ) ;
+                hot_cities_listView.setAdapter(hotadapter);
+                cold_cities_listView.setAdapter(coldadapter);
+
+
+                //setViewList(arrayList);
 
 
             }
@@ -224,21 +253,6 @@ public class suggestion extends Fragment {
         citiesLoader.execute(weatherurls, forcasturls);
 
 
-        hot_cities.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String text = ((TextView) view.findViewById(R.id.tv_city_name)).getText().toString();
-                try {
-
-
-                    Toast.makeText(getContext(), Integer.toString(hot_cities.getChildCount()), Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    Log.e("errorrr", e.toString());
-
-                }
-                //Toast.makeText(getContext(),text,Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
         return root;

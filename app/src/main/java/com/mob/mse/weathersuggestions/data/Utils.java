@@ -70,6 +70,7 @@ public class Utils{
         builder.scheme("http").authority("api.openweathermap.org")
                 .appendPath("data").appendPath("2.5")
                 .appendPath("forecast")
+                .appendPath("daily")
                 .appendQueryParameter("q", name)
                 .appendQueryParameter("cnt", "7")
                 .appendQueryParameter("mode", "json")

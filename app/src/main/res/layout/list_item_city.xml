@@ -8,7 +8,6 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:id="@+id/city_back"
-    android:background="@color/Cornsilk"
     android:orientation="horizontal" >
 
     <ImageView
@@ -52,12 +51,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/SteelBlue">
     <ImageView
         android:id="@+id/img_f_icon"
         android:layout_width="30dp"
         android:layout_height="20dp"
-        android:background="@drawable/w_small_clear" />
+        android:background="@drawable/w_small_clear" /></LinearLayout>
         <TextView
             android:id="@+id/tv_f_temp"
             android:layout_width="wrap_content"

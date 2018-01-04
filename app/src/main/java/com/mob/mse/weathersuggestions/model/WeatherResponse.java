@@ -55,27 +55,12 @@ public class WeatherResponse {
 		public Long sunrise;
 		public Long sunset;
 	}
-	
+
+
 	public Long id;
 	public String name;
 	public Double cod;
 
-	@Override
-	public String toString() {
-		return "WeatherResponse{" +
-				"coord=" + coord +
-				", weather=" + weather +
-				", base='" + base + '\'' +
-				", main=" + main +
-				", wind=" + wind +
-				", clouds=" + clouds +
-				", dt=" + dt +
-				", sys=" + sys +
-				", id=" + id +
-				", name='" + name + '\'' +
-				", cod=" + cod +
-				'}';
-	}
 
 	//	public class Rain {
 //		public Double threeh;

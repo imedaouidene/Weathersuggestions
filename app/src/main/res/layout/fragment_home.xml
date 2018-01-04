@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.mob.mse.weathersuggestions.fragments.home" >
 
     <RelativeLayout
@@ -184,7 +185,7 @@
         android:background="@color/soft_grey"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:divider="@android:color/transparent"
+
         android:dividerHeight="0dp"
         android:visibility="gone"
         android:layout_weight="1" >

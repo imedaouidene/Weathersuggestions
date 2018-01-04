@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 /**
- * Created by Imed on 24-Dec-17.
+ * Created by Imed on 11-Oct-17.
  */
 public class JSONLoader {
 
@@ -53,9 +53,15 @@ public class JSONLoader {
                 forcastResponse = getJSON(forecasturl);
                 weatherString = weatherResponse.toString();
                 forecastString = forcastResponse.toString() ;
+                try {
+                    f = gson.fromJson(forecastString , ForecastResponse.class) ;
 
+
+                }catch (Exception e) {
+                    Log.e(":(" , e.toString()) ;
+                }
                 w= gson.fromJson(weatherString, WeatherResponse.class);
-                f = gson.fromJson(forecastString , ForecastResponse.class) ;
+                //w= gson.fromJson(weatherString, WeatherResponse.class);
                 itemLocation.setJsonWeather(w);
                 itemLocation.setJsonForecast(f);
                 itemLocation.setId(w.id+"");

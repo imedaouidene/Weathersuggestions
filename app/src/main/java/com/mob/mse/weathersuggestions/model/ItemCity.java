@@ -97,7 +97,9 @@ public class ItemCity implements Comparable<ItemCity> {
 		this.icon = icon;
 	}
 
-	public String getTemp() {
+
+
+    public String getTemp() {
 		return temp;
 	}
 	public void setTemp(String temp) {
@@ -119,7 +121,7 @@ public class ItemCity implements Comparable<ItemCity> {
 
 
 
-		@Override
+    @Override
 		public int compareTo(@NonNull ItemCity itemCity) {
 
 			double temp = itemCity.getItemLocation().getJsonWeather().main.temp ;

@@ -2,6 +2,7 @@ package com.mob.mse.weathersuggestions;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -71,7 +73,12 @@ public class Main extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            Snackbar.make(getCurrentFocus(),"are you sure ?",Snackbar.LENGTH_LONG).setAction("Exit", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            }).show(); ;
         }
     }
 
