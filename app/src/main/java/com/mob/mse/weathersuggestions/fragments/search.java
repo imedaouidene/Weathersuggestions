@@ -4,9 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,11 +18,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mob.mse.weathersuggestions.JSON.ImageLoader;
 import com.mob.mse.weathersuggestions.JSON.JSONLoader;
 import com.mob.mse.weathersuggestions.R;
 import com.mob.mse.weathersuggestions.adapter.GooglePlacesACAdapter;
+import com.mob.mse.weathersuggestions.adapter.SlidingImage_Adapter;
 import com.mob.mse.weathersuggestions.data.Utils;
 import com.mob.mse.weathersuggestions.model.ForecastResponse;
+import com.mob.mse.weathersuggestions.model.ImageResponse;
 import com.mob.mse.weathersuggestions.model.ItemForecast;
 import com.mob.mse.weathersuggestions.model.ItemLocation;
 import com.mob.mse.weathersuggestions.model.WeatherResponse;
@@ -90,6 +93,8 @@ public class search extends Fragment {
     boolean b = true ;
     boolean cityb = false ;
     String city = "none" , country = "none" ;
+    ArrayList<String> ImagesArray = new ArrayList<String>();
+    int NUM_PAGES ,currentPage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,6 +120,24 @@ public class search extends Fragment {
         searchbar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                ImagesArray.clear();
+                final Dialog dialog = new Dialog(getContext()) ;
+                dialog.setContentView(R.layout.search_dialog);
+
+                tv_temp		= (TextView) dialog.findViewById(R.id.tv_temp);
+                tv_desc		= (TextView) dialog.findViewById(R.id.tv_desc);
+                tv_city		= (TextView) dialog.findViewById(R.id.tv_city);
+                tv_day		= (TextView) dialog.findViewById(R.id.tv_day);
+                tv_humidity = (TextView)dialog.findViewById(R.id.tv_humidity);
+                tv_wind = (TextView)dialog.findViewById(R.id.tv_wind);
+                pager = (ViewPager)dialog.findViewById(R.id.pager) ;
+                linearLayout  =(LinearLayout)dialog.findViewById(listview) ;
+                img_icon	= (ImageView) dialog.findViewById(R.id.img_icon);
+                //progressbar	= (ProgressBar) root.findViewById(R.id.progressbar);
+                lyt_bg		= (RelativeLayout) dialog.findViewById(R.id.lyt_bg);
+
+
                 String str = (String) adapterView.getItemAtPosition(i);
                 String urlstring = null;
                 String forecast = null  ;
@@ -201,6 +224,44 @@ public class search extends Fragment {
 
 
 
+                        ImageLoader.placeIdTask imageloader = new ImageLoader.placeIdTask(new ImageLoader.AsyncResponse() {
+                            @Override
+                            public void processFinish(ImageResponse imageResponse) {
+                              //  swipeTimer.purge();
+                                for (int i = 0; i < imageResponse.hits.size(); i++)
+                                    ImagesArray.add(imageResponse.hits.get(i).webformatURL+"?key=7593479-4b373fb7ca049dd32f5c81299");
+
+                                pager.setAdapter(new SlidingImage_Adapter(getContext(), ImagesArray));
+
+
+                                NUM_PAGES = ImagesArray.size()-1 ;
+
+                                //Auto start of viewpager
+                                final Handler handler = new Handler();
+                                final Runnable Update = new Runnable() {
+                                    public void run() {
+                                        if (currentPage == NUM_PAGES) {
+                                            currentPage = 0;
+                                        }
+                                        pager.setCurrentItem(currentPage++, true);
+                                    }
+                                };
+
+                            /*    swipeTimer.schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        handler.post(Update);
+                                    }
+                                }, 3000, 3000);*/
+
+                            }
+                        },getContext()) ;
+                        imageloader.execute(city);
+
+                        dialog.show();
+
+
+
 
                     }
                 });
@@ -225,20 +286,6 @@ public class search extends Fragment {
     Utils utils ;
     private void showcitysearch(String str,Context context) {
 
-        Dialog dialog = new Dialog(context) ;
-        dialog.setContentView(R.layout.search_dialog);
-
-        tv_temp		= (TextView) dialog.findViewById(R.id.tv_temp);
-        tv_desc		= (TextView) dialog.findViewById(R.id.tv_desc);
-        tv_city		= (TextView) dialog.findViewById(R.id.tv_city);
-        tv_day		= (TextView) dialog.findViewById(R.id.tv_day);
-        tv_humidity = (TextView)dialog.findViewById(R.id.tv_humidity);
-        tv_wind = (TextView)dialog.findViewById(R.id.tv_wind);
-        pager = (ViewPager)dialog.findViewById(R.id.pager) ;
-        linearLayout  =(LinearLayout)dialog.findViewById(listview) ;
-        img_icon	= (ImageView) dialog.findViewById(R.id.img_icon);
-        //progressbar	= (ProgressBar) root.findViewById(R.id.progressbar);
-        lyt_bg		= (RelativeLayout) dialog.findViewById(R.id.lyt_bg);
     }
     public void setViewList(ArrayList<ItemForecast> forecasts){
         LayoutInflater inflater = LayoutInflater.from(getContext());

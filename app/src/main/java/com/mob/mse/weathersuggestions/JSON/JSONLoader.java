@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 /**
  * Created by Imed on 11-Oct-17.
  */
@@ -38,8 +39,7 @@ public class JSONLoader {
 
         @Override
         protected ItemLocation  doInBackground(String... params) {
-            WeatherResponse weather		= new WeatherResponse();
-            ForecastResponse forecast 	= new ForecastResponse();
+
             ItemLocation itemLocation  = new ItemLocation() ;
             JSONObject weatherResponse = null;
             JSONObject forcastResponse = null ;
@@ -68,7 +68,7 @@ public class JSONLoader {
                 itemLocation.setId(w.id+"");
                 itemLocation.setName(w.name);
                 itemLocation.setCode(w.sys.country);
-
+                Log.e("here ?",w.sys.country.toString()) ;
             } catch (Exception e) {
                 Log.d("Error", "Cannot process JSON results", e);
             }
@@ -82,14 +82,14 @@ public class JSONLoader {
             try {
 
                 if(itemLocation != null){
-                    Log.w("i'm here",itemLocation.toString());
+                    //Log.w("i'm here",itemLocation.toString());
                     //Log.d("list",list.toString()) ;
 
                     delegate.processFinish(itemLocation);
 
                 }
             } catch (Exception e) {
-                Log.e("erreur", "Cannot process JSON results", e);
+                Log.e("erreur", "Cannot process JSON results!", e);
             }
 
 
@@ -104,7 +104,7 @@ public class JSONLoader {
 
     public static JSONObject getJSON(String myurl){
         try {
-            URL url = new URL(String.format(myurl));
+            URL url = new URL(myurl) ;
             HttpURLConnection connection =
                     (HttpURLConnection)url.openConnection();
 
@@ -128,7 +128,7 @@ public class JSONLoader {
 
             return data;
         }catch(Exception e){
-            Log.e("error",e.toString());
+            Log.e("error 25",e.toString());
             return null;
         }
 
