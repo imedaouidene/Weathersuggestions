@@ -63,7 +63,7 @@ public class GooglePlacesACAdapter extends ArrayAdapter implements Filterable {
                             resultList.clear();
                             }
                             resultList = Autocompletelist ;
-                         filterResults = new FilterResults();
+                            filterResults = new FilterResults();
                             filterResults.values = Autocompletelist;
 
                             filterResults.count = Autocompletelist.size();
