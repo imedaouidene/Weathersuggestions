@@ -116,7 +116,7 @@ public class home extends Fragment {
         GPSTracker gps = new GPSTracker(getContext()) ;
 
         Location myloc = gps.getLocation();
-        loc = Double.toString(myloc.getLatitude())+"|"+Double.toString(myloc.getLongitude()) ;
+       // loc = Double.toString(myloc.getLatitude())+"|"+Double.toString(myloc.getLongitude()) ;
         Log.e("location",loc) ;
         String urlstring = Utils.getURLweather(loc);
         String forecast = Utils.getURLforecast(loc);

@@ -81,6 +81,44 @@ public class Utils{
         return URL;
     }
 
+    //https://restcountries.eu/rest/v2/alpha?codes=ch
+
+    public static String getcountryinfoURL (String name){
+        Uri.Builder builder = new Uri.Builder();
+        String URL;
+        builder.scheme("https")
+                .authority("restcountries.eu")
+                .appendPath("rest")
+                .appendPath("v2").appendPath("alpha")
+                .appendQueryParameter("codes",name) ;
+        URL = builder.build().toString();
+        Log.d("URL country info : ", URL);
+
+
+        return URL;
+
+    }
+//https://pixabay.com/api/?key=7593479-4b373fb7ca049dd32f5c81299&q=switzerland&image_type=photo&pretty=true
+    public static String getcountryimages (String name){
+        Uri.Builder builder = new Uri.Builder();
+        String URL;
+        builder.scheme("https")
+                .authority("pixabay.com")
+                .appendPath("api")
+
+                .appendQueryParameter("key","7593479-4b373fb7ca049dd32f5c81299")
+        .appendQueryParameter("q",name)
+        .appendQueryParameter("image_type","photo")
+        .appendQueryParameter("pretty","true");
+        URL = builder.build().toString();
+        Log.d("URL country info : ", URL);
+
+
+        return URL;
+
+    }
+
+
     public double C2F(double temp) {
          double f = 0 ;
 

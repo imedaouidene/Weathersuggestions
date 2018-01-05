@@ -53,6 +53,7 @@ public class JSONLoader {
                 forcastResponse = getJSON(forecasturl);
                 weatherString = weatherResponse.toString();
                 forecastString = forcastResponse.toString() ;
+
                 try {
                     f = gson.fromJson(forecastString , ForecastResponse.class) ;
 
@@ -61,7 +62,6 @@ public class JSONLoader {
                     Log.e(":(" , e.toString()) ;
                 }
                 w= gson.fromJson(weatherString, WeatherResponse.class);
-                //w= gson.fromJson(weatherString, WeatherResponse.class);
                 itemLocation.setJsonWeather(w);
                 itemLocation.setJsonForecast(f);
                 itemLocation.setId(w.id+"");

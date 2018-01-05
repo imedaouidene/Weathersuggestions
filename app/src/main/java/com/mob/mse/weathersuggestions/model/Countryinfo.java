@@ -9,43 +9,43 @@ import java.util.ArrayList;
 
 
 public class Countryinfo {
-    String name;
+     public String name;
 
-    ArrayList<String> topLevelDomains ;
-    String alpha2Code ;
-    String  alpha3Code ;
+    public  ArrayList<String> topLevelDomains ;
+    public String alpha2Code ;
+    public   String  alpha3Code ;
 
-    ArrayList<String> callingCodes ;
+    public  ArrayList<String> callingCodes ;
 
 
-    String capital ;
+    public   String capital ;
 
-    ArrayList<String> altSpellings ;
-    String region ;
-    String subregion ;
-    long population ;
-    ArrayList<Integer> latlng ;
-    String demonym ;
-    int area ;
-    double gini ;
-    ArrayList<String> timezones ;
-    ArrayList<String>borders ;
-    String nativeName;
-    String numericCode ;
+    public   ArrayList<String> altSpellings ;
+    public    String region ;
+    public    String subregion ;
+    public    long population ;
+    public   ArrayList<Double> latlng ;
+    public  String demonym ;
+    public  int area ;
+    public double gini ;
+    public   ArrayList<String> timezones ;
+    public   ArrayList<String>borders ;
+    public   String nativeName;
+    public   String numericCode ;
     public class currency {
-        String code;
-        String name ;
-        String symbol ;
+        public   String code;
+        public  String name ;
+        public   String symbol ;
     }
-    ArrayList<currency> currencies ;
+    public  ArrayList<currency> currencies ;
     public class language {
 
-        String iso639_1 ;
-        String iso639_2 ;
-        String name ;
-        String nativeName ;
+      public  String iso639_1 ;
+        public   String iso639_2 ;
+        public  String name ;
+        public   String nativeName ;
     }
-    ArrayList<language> languages ;
+    public  ArrayList<language> languages ;
     public class translation {
         String de ;
         String es;
@@ -60,20 +60,20 @@ public class Countryinfo {
 
     }
 
-translation translation ;
-    String flag ;
+    public translation translation ;
+    public String flag ;
 
 
 public  class regionalBlocs {
 
 
-    String acronym ;
-    String name ;
-    ArrayList<String>otherAcronyms;
-    ArrayList<String> otherNames ;
+    public  String acronym ;
+    public String name ;
+    public  ArrayList<String>otherAcronyms;
+    public  ArrayList<String> otherNames ;
 }
-ArrayList<regionalBlocs> regionalBlocs ;
-    String cioc ;
+    public ArrayList<regionalBlocs> regionalBlocs ;
+    public String cioc ;
 
 
 }

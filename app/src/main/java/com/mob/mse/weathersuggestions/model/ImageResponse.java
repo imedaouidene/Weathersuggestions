@@ -8,33 +8,33 @@ import java.util.ArrayList;
 // https://pixabay.com/api/?key=7593479-4b373fb7ca049dd32f5c81299&q=switzerland&image_type=photo&pretty=true
 public class ImageResponse {
 
-    int totalHits;
+    public  int totalHits;
     public class hits {
 
-        int previewHeight ;
-        int likes ;
-        int favorites ;
-        String tags;
-        int webformatHeight ;
-        int views ;
-        int webformatWidth ;
-        int previewWidth ;
-        int comments ;
-        int downloads ;
-        String pageURL ;
-        String previewURL ;
-        String webformatURL ;
-        int imageWidth ;
-        int user_id ;
-        String userImageURL ;
-        int imageHeight ;
+       public int previewHeight ;
+       public int likes ;
+        public   int favorites ;
+        public     String tags;
+        public     int webformatHeight ;
+        public      int views ;
+        public      int webformatWidth ;
+        public      int previewWidth ;
+        public      int comments ;
+        public      int downloads ;
+        public       String pageURL ;
+        public        String previewURL ;
+        public        String webformatURL ;
+        public      int imageWidth ;
+        public      int user_id ;
+        public      String userImageURL ;
+        public       int imageHeight ;
 
 
 
 
     }
 
-    ArrayList<hits> hits ;
-    int total ;
+    public   ArrayList<hits> hits ;
+    public  int total ;
 
 }

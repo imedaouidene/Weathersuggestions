@@ -1,24 +1,36 @@
 package com.mob.mse.weathersuggestions.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mob.mse.weathersuggestions.JSON.CitiesLoader;
+import com.mob.mse.weathersuggestions.JSON.CountryinfoLoader;
+import com.mob.mse.weathersuggestions.JSON.ImageLoader;
 import com.mob.mse.weathersuggestions.R;
 import com.mob.mse.weathersuggestions.adapter.ItemCityAdapter;
+import com.mob.mse.weathersuggestions.adapter.SlidingImage_Adapter;
 import com.mob.mse.weathersuggestions.data.Utils;
+import com.mob.mse.weathersuggestions.model.Countryinfo;
+import com.mob.mse.weathersuggestions.model.ForecastResponse;
+import com.mob.mse.weathersuggestions.model.ImageResponse;
 import com.mob.mse.weathersuggestions.model.ItemCity;
+import com.mob.mse.weathersuggestions.model.ItemForecast;
 import com.mob.mse.weathersuggestions.model.WeatherResponse;
 import com.squareup.picasso.Picasso;
 
@@ -26,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import static com.mob.mse.weathersuggestions.Main.countries1;
+import static com.mob.mse.weathersuggestions.R.id.listview;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,7 +96,7 @@ public class suggestion extends Fragment {
 
 
 
-    public void setViewList(ArrayList<ItemCity> cities) {
+    public void setViewList0(ArrayList<ItemCity> cities) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         hot_cities.removeAllViews();
         cold_cities.removeAllViews();
@@ -207,6 +220,26 @@ public class suggestion extends Fragment {
                 hot_cities_listView.setAdapter(hotadapter);
                 cold_cities_listView.setAdapter(coldadapter);
 
+                hot_cities_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        ItemCity itemCity = (ItemCity) adapterView.getItemAtPosition(i);
+
+                        showinfos(getContext(),itemCity) ;
+
+
+
+                    }
+                });
+                cold_cities_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        ItemCity itemCity = (ItemCity) adapterView.getItemAtPosition(i);
+
+                        showinfos(getContext(),itemCity) ;
+                    }
+                });
+
 
                 //setViewList(arrayList);
 
@@ -258,6 +291,143 @@ public class suggestion extends Fragment {
         return root;
 
     }
+    private static int currentPage = 0;
+    private static int NUM_PAGES = 0;
+
+    private ArrayList<String> ImagesArray = new ArrayList<String>();
+    private static final String[] IMAGES = new String[3];
+
+    public void setViewList(ArrayList<ItemForecast> forecasts,Context context,LinearLayout linearLayout){
+        ImagesArray.clear();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        linearLayout.removeAllViews();
+        for (ItemForecast obje : forecasts) {
+            View view;
+            view = inflater.inflate(R.layout.weather_element, linearLayout, false);
+
+            ((TextView) view.findViewById(R.id.tv_f_temp)).setText(obje.getTemp());
+            ((TextView) view.findViewById(R.id.tv_f_day)).setText(obje.getDay());
+            ((TextView) view.findViewById(R.id.tv_f_desc)).setText(obje.getDesc());
+            ImageView img =(ImageView) view.findViewById(R.id.img_f_icon);
+            utils.setDrawableSmallIcon(obje.getIcon(), img);
+            linearLayout.addView(view);
+        }}
+
+
+    TextView country_name  ;
+    TextView ci_population ;
+    TextView ci_languages ;
+    TextView ci_currency ;
+    Button addtofavorits ;
+    ViewPager pager ;
+    LinearLayout linearLayout ;
+    public void showinfos(final Context context , final ItemCity city){
+
+
+    Dialog dialog = new Dialog(context) ;
+    dialog.setContentView(R.layout.city_info);
+    ImageView flag = (ImageView)dialog.findViewById(R.id.city_flag) ;
+    TextView city_name =(TextView)dialog.findViewById(R.id.city_name) ;
+    country_name = (TextView)dialog.findViewById(R.id.ci_country_name) ;
+    ci_population = (TextView)dialog.findViewById(R.id.ci_population) ;
+    ci_languages = (TextView)dialog.findViewById(R.id.ci_languages) ;
+    ci_currency = (TextView)dialog.findViewById(R.id.ci_currency) ;
+    addtofavorits = (Button)dialog.findViewById(R.id.addtofavorits) ;
+    pager = (ViewPager)dialog.findViewById(R.id.pager) ;
+    linearLayout  =(LinearLayout)dialog.findViewById(listview) ;
+
+            //filling data
+    Picasso.with(getContext())
+            .load(Utils.getFlagURL(city.getItemLocation().getJsonWeather().sys.country.toLowerCase()))
+            .into(flag);
+
+    city_name.setText(city.getCity());
+
+    CountryinfoLoader.placeIdTask placeIdTask = new CountryinfoLoader.placeIdTask(new CountryinfoLoader.AsyncResponse(){
+
+        @Override
+        public void processFinish(Countryinfo countryinfo) {
+            country_name.setText(countryinfo.name);
+            ci_population.setText(Long.toString(countryinfo.population));
+            String language ="";
+            for (int i=0 ; i<countryinfo.languages.size();i++){
+                language = language + countryinfo.languages.get(i).name;
+            }
+           // Toast.makeText(context,language,Toast.LENGTH_SHORT).show();
+            ci_languages.setText(language);
+            String currencies = "" ;
+            for(int i=0; i<countryinfo.currencies.size();i++){
+                currencies = currencies + countryinfo.currencies.get(i).name;
+
+            }
+           // Toast.makeText(context,countryinfo.languages.get(0).,Toast.LENGTH_SHORT).show();
+            ArrayList<ItemForecast> forecasts = new ArrayList<ItemForecast>();
+
+            ForecastResponse forecastResponse = city.getItemLocation().getJsonForecast();
+            for (int i = 1; i < 7; i++) {
+                ItemForecast fcs = new ItemForecast();
+                fcs.setTemp(Integer.toString((int)(forecastResponse.list.get(i).temp.day+0.0f))+"°C");
+                fcs.setDay(utils.getDay(forecastResponse.list.get(i).dt));
+                fcs.setDesc(forecastResponse.list.get(i).weather.get(0).main);
+                fcs.setIcon(forecastResponse.list.get(i).weather.get(0).icon);
+                forecasts.add(fcs);
+            }
+            setViewList(forecasts,context,linearLayout);
+
+            ci_currency.setText(currencies) ;
+            addtofavorits.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context,"This is context",Toast.LENGTH_SHORT).show();
+                }
+            }) ;
+
+
+        }
+    },getContext());
+
+
+    placeIdTask.execute(city.getCountry());
+
+
+        ImageLoader.placeIdTask imageloader = new ImageLoader.placeIdTask(new ImageLoader.AsyncResponse() {
+            @Override
+            public void processFinish(ImageResponse imageResponse) {
+                for (int i = 0; i < imageResponse.hits.size(); i++)
+                    ImagesArray.add(imageResponse.hits.get(i).webformatURL+"?key=7593479-4b373fb7ca049dd32f5c81299");
+
+                pager.setAdapter(new SlidingImage_Adapter(getContext(), ImagesArray));
+
+
+                NUM_PAGES = 20;
+
+                /*// Auto start of viewpager
+                final Handler handler = new Handler();
+                final Runnable Update = new Runnable() {
+                    public void run() {
+                        if (currentPage == NUM_PAGES) {
+                            currentPage = 0;
+                        }
+                        pager.setCurrentItem(currentPage++, true);
+                    }
+                };
+                Timer swipeTimer = new Timer();
+                swipeTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        handler.post(Update);
+                    }
+                }, 3000, 3000);*/
+
+            }
+        },context) ;
+        imageloader.execute(city.getCity());
+     dialog.show();
+
+
+}
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
