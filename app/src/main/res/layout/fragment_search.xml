@@ -1,0 +1,92 @@
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+    tools:context="com.mob.mse.weathersuggestions.fragments.search">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/toolbar"
+            android:background="@color/CadetBlue"
+
+            >
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:drawableLeft="@drawable/search1"
+                android:background="@color/white"
+                android:hint="search"
+                android:inputType="text"
+                android:id="@+id/searchedittext"
+                android:layout_margin="12dp"
+                android:imeOptions="actionSearch"
+                />
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/resulttoolbar"
+            >
+            <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="10"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sort"
+                    android:id="@+id/sortbutton"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/sort"
+                    android:textColor="@color/Black"
+                    android:layout_weight="2"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text= "0 results found"
+                    android:id="@+id/resultsnumber"
+                    android:layout_weight="6"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Filter"
+                    android:id="@+id/filterbutton"
+                    android:textColor="@color/Black"
+                    android:drawableRight="@drawable/filter_variant"
+                    android:clickable="true"
+                    android:layout_gravity="right"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/searchlistview"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>

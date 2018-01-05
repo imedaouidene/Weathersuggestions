@@ -9,6 +9,8 @@ import android.widget.RelativeLayout;
 
 import com.mob.mse.weathersuggestions.R;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,13 +52,13 @@ public class Utils{
     }
 
 
-    public static String getcityURLweather(String name){
+    public static String getcityURLweather(String name) throws UnsupportedEncodingException {
         Uri.Builder builder = new Uri.Builder();
         String URL;
         builder.scheme("http").authority("api.openweathermap.org")
                 .appendPath("data").appendPath("2.5")
                 .appendPath("weather")
-                .appendQueryParameter("q", name)
+                .appendQueryParameter("q", URLEncoder.encode(name, "utf8"))
                 .appendQueryParameter("mode", "json")
                 .appendQueryParameter("units", "metric")
                 .appendQueryParameter("APPID", WEATHER_API_KEY);
@@ -64,14 +66,14 @@ public class Utils{
         Log.d("URL weather city", URL);
         return URL;
     }
-    public static String getcityURLForecast(String name){
+    public static String getcityURLForecast(String name) throws UnsupportedEncodingException {
         Uri.Builder builder = new Uri.Builder();
         String URL;
         builder.scheme("http").authority("api.openweathermap.org")
                 .appendPath("data").appendPath("2.5")
                 .appendPath("forecast")
                 .appendPath("daily")
-                .appendQueryParameter("q", name)
+                .appendQueryParameter("q", URLEncoder.encode(name, "utf8"))
                 .appendQueryParameter("cnt", "7")
                 .appendQueryParameter("mode", "json")
                 .appendQueryParameter("units", "metric")
@@ -83,14 +85,14 @@ public class Utils{
 
     //https://restcountries.eu/rest/v2/alpha?codes=ch
 
-    public static String getcountryinfoURL (String name){
+    public static String getcountryinfoURL (String name) throws UnsupportedEncodingException {
         Uri.Builder builder = new Uri.Builder();
         String URL;
         builder.scheme("https")
                 .authority("restcountries.eu")
                 .appendPath("rest")
                 .appendPath("v2").appendPath("alpha")
-                .appendQueryParameter("codes",name) ;
+                .appendQueryParameter("codes",URLEncoder.encode(name, "utf8")) ;
         URL = builder.build().toString();
         Log.d("URL country info : ", URL);
 
@@ -99,7 +101,7 @@ public class Utils{
 
     }
 //https://pixabay.com/api/?key=7593479-4b373fb7ca049dd32f5c81299&q=switzerland&image_type=photo&pretty=true
-    public static String getcountryimages (String name){
+    public static String getcountryimages (String name) throws UnsupportedEncodingException {
         Uri.Builder builder = new Uri.Builder();
         String URL;
         builder.scheme("https")
@@ -107,7 +109,7 @@ public class Utils{
                 .appendPath("api")
 
                 .appendQueryParameter("key","7593479-4b373fb7ca049dd32f5c81299")
-        .appendQueryParameter("q",name)
+        .appendQueryParameter("q",URLEncoder.encode(name, "utf8"))
         .appendQueryParameter("image_type","photo")
         .appendQueryParameter("pretty","true");
         URL = builder.build().toString();
@@ -116,6 +118,21 @@ public class Utils{
 
         return URL;
 
+    }
+
+
+    public  static  String getplacesUrl(String input) throws UnsupportedEncodingException {
+        String url ;
+        StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/autocomplete/json" );
+
+        sb.append("?key=AIzaSyBAG7l6FUU-kEcHRoREmsLCp82yvOtmVKA");
+
+
+
+        sb.append("&input=" + URLEncoder.encode(input, "utf8"));
+        url=sb.toString();
+
+        return  url ;
     }
 
 
@@ -303,7 +320,7 @@ public class Utils{
         return null;
     }
 
-    public ArrayList<String[]> generate_cities(String[] countries1) {
+    public ArrayList<String[]> generate_cities(String[] countries1) throws UnsupportedEncodingException {
 
         ArrayList<String[]> to_return = new ArrayList<>();
                 String[]     weather = new String[countries1.length] ;

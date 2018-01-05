@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -45,8 +46,13 @@ public class CountryinfoLoader {
         protected Countryinfo doInBackground(String... strings) {
             String countryname = strings[0] ;
             Utils utils = new Utils(context) ;
-            String countryinfourl = utils.getcountryinfoURL(countryname) ;
-             countryinfo = new Countryinfo() ;
+            String countryinfourl = null;
+            try {
+                countryinfourl = utils.getcountryinfoURL(countryname);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            countryinfo = new Countryinfo() ;
 
             JSONObject infosJson  = getJSON(countryinfourl) ;
             String infosJsonSTRING = infosJson.toString();

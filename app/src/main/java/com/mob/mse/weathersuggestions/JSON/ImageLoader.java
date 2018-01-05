@@ -10,6 +10,8 @@ import com.mob.mse.weathersuggestions.model.ImageResponse;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+
 import static com.mob.mse.weathersuggestions.JSON.JSONLoader.getJSON;
 
 
@@ -41,7 +43,12 @@ public class ImageLoader {
         protected ImageResponse doInBackground(String... strings) {
             String countryname = strings[0] ;
             Utils utils = new Utils(context) ;
-            String countryinfourl = utils.getcountryimages(countryname) ;
+            String countryinfourl = null;
+            try {
+                countryinfourl = utils.getcountryimages(countryname);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             imageResponse = new ImageResponse() ;
 
             JSONObject imagesJSON  = getJSON(countryinfourl) ;

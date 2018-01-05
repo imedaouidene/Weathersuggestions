@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -34,8 +35,11 @@ import com.mob.mse.weathersuggestions.model.ItemForecast;
 import com.mob.mse.weathersuggestions.model.WeatherResponse;
 import com.squareup.picasso.Picasso;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.mob.mse.weathersuggestions.Main.countries1;
 import static com.mob.mse.weathersuggestions.R.id.listview;
@@ -249,7 +253,12 @@ public class suggestion extends Fragment {
 
 
         String[] weatherurls, forcasturls;
-        ArrayList<String[]> infos = utils.generate_cities(countries1);
+        ArrayList<String[]> infos = null;
+        try {
+            infos = utils.generate_cities(countries1);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         weatherurls = infos.get(0);
         forcasturls = infos.get(1);
 
@@ -293,7 +302,7 @@ public class suggestion extends Fragment {
     }
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
-
+    Timer swipeTimer = new Timer();
     private ArrayList<String> ImagesArray = new ArrayList<String>();
     private static final String[] IMAGES = new String[3];
 
@@ -393,15 +402,16 @@ public class suggestion extends Fragment {
         ImageLoader.placeIdTask imageloader = new ImageLoader.placeIdTask(new ImageLoader.AsyncResponse() {
             @Override
             public void processFinish(ImageResponse imageResponse) {
+                swipeTimer.purge();
                 for (int i = 0; i < imageResponse.hits.size(); i++)
                     ImagesArray.add(imageResponse.hits.get(i).webformatURL+"?key=7593479-4b373fb7ca049dd32f5c81299");
 
                 pager.setAdapter(new SlidingImage_Adapter(getContext(), ImagesArray));
 
 
-                NUM_PAGES = 20;
+                NUM_PAGES = ImagesArray.size()-1 ;
 
-                /*// Auto start of viewpager
+                 //Auto start of viewpager
                 final Handler handler = new Handler();
                 final Runnable Update = new Runnable() {
                     public void run() {
@@ -411,13 +421,13 @@ public class suggestion extends Fragment {
                         pager.setCurrentItem(currentPage++, true);
                     }
                 };
-                Timer swipeTimer = new Timer();
+
                 swipeTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
                         handler.post(Update);
                     }
-                }, 3000, 3000);*/
+                }, 3000, 3000);
 
             }
         },context) ;

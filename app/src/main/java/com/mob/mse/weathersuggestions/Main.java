@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.mob.mse.weathersuggestions.fragments.home;
+import com.mob.mse.weathersuggestions.fragments.search;
 import com.mob.mse.weathersuggestions.fragments.suggestion;
 
 public class Main extends AppCompatActivity
@@ -34,7 +35,7 @@ public class Main extends AppCompatActivity
     public static String[] countries1 = {"Brasilia", "Miami",  "Singapore", "Mumbai",
             "Lima", "Dubai", "Sydney", "Bangkok",  "Taipei", "Cairo", "Beirut", "Rabat"
          , "Havana", "Darwin", "Santiago","Tunis", "Istanbul", "Rome", "Barcelona", "Paris", "London", "Madrid",
-            "Berlin", "Frankfurt", "Prague", "Stockholm", "Moscow,RU", "Tokyo",  "Seoul", "Montreal", "Toronto","Bangkok"
+            "Berlin", "Frankfurt", "Prague", "Stockholm", "Moscow,ru", "Tokyo",  "Seoul", "Montreal", "Toronto","Bangkok","geneva,ch","Lausanne","Zurich"
     };
 
 
@@ -120,14 +121,25 @@ public class Main extends AppCompatActivity
 /*            Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-// finally change the color
+
             window.setStatusBarColor(ContextCompat.getColor(this,R.color.home_back));*/
             // Handle the camera action
         } else if (id == R.id.search) {
+            Window window = this.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+// finally change the color
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.CadetBlue));
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            search search = new search() ;
+            fragmentTransaction.add(R.id.fragment_container, search);
+            fragmentTransaction.commit();
         } else if (id == R.id.suggestion) {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
