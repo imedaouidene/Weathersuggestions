@@ -45,7 +45,8 @@ public class JSONLoader {
             JSONObject forcastResponse = null ;
             String weatherurl=  params[0] ;
             String forecasturl =  params[1] ;
-
+            Log.e("weatherurlcurrent",weatherurl) ;
+            Log.e("forecasturlcurrent",forecasturl) ;
             try {
                 Gson gson = new Gson();
 

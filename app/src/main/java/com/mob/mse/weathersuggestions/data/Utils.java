@@ -58,7 +58,7 @@ public class Utils{
         builder.scheme("http").authority("api.openweathermap.org")
                 .appendPath("data").appendPath("2.5")
                 .appendPath("weather")
-                .appendQueryParameter("q", URLEncoder.encode(name, "utf8"))
+                .appendQueryParameter("q", name)
                 .appendQueryParameter("mode", "json")
                 .appendQueryParameter("units", "metric")
                 .appendQueryParameter("APPID", WEATHER_API_KEY);
@@ -73,7 +73,7 @@ public class Utils{
                 .appendPath("data").appendPath("2.5")
                 .appendPath("forecast")
                 .appendPath("daily")
-                .appendQueryParameter("q", URLEncoder.encode(name, "utf8"))
+                .appendQueryParameter("q", name)
                 .appendQueryParameter("cnt", "7")
                 .appendQueryParameter("mode", "json")
                 .appendQueryParameter("units", "metric")

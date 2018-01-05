@@ -108,6 +108,7 @@ public class home extends Fragment {
         img_icon	= (ImageView) root.findViewById(R.id.img_icon);
         //progressbar	= (ProgressBar) root.findViewById(R.id.progressbar);
         lyt_bg		= (RelativeLayout) root.findViewById(R.id.lyt_bg);
+
         listview 	= (LinearLayout) root.findViewById(R.id.listview);
 
         String loc = "46.1877542|6.1487415";
