@@ -95,7 +95,7 @@ public class CountryinfoLoader {
 
     public static JSONObject getJSON(String myurl){
         try {
-            URL url = new URL(String.format(myurl));
+            URL url = new URL(myurl);
             HttpURLConnection connection =
                     (HttpURLConnection)url.openConnection();
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -139,6 +140,16 @@ public class search extends Fragment {
 
 
                 String str = (String) adapterView.getItemAtPosition(i);
+
+                try {
+                    str = str.substring(0,str.indexOf(',',str.indexOf(',')+1)) ;
+
+                }catch (Exception e){
+                    Log.e("str error",e.toString()) ;
+                }
+
+
+
                 String urlstring = null;
                 String forecast = null  ;
                 try {
@@ -256,6 +267,7 @@ public class search extends Fragment {
 
                             }
                         },getContext()) ;
+
                         imageloader.execute(city);
 
                         dialog.show();
