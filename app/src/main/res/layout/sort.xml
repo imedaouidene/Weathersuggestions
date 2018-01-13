@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<RadioGroup
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center" >
+    <RadioButton
+        android:id="@+id/ascending"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ascending order"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"/>
+
+    <RadioButton
+        android:id="@+id/descending"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Descending order" />
+
+</RadioGroup>
+
+    <Button
+        android:text="Apply"
+        android:id="@+id/applysort"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:textColor="@color/white"
+        android:background="@color/CadetBlue"/>
+</LinearLayout>

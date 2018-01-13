@@ -2,6 +2,7 @@ package com.mob.mse.weathersuggestions.fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,9 +18,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mob.mse.weathersuggestions.JSON.CitiesLoader;
 import com.mob.mse.weathersuggestions.JSON.CountryinfoLoader;
 import com.mob.mse.weathersuggestions.JSON.ImageLoader;
@@ -35,13 +38,18 @@ import com.mob.mse.weathersuggestions.model.ItemForecast;
 import com.mob.mse.weathersuggestions.model.WeatherResponse;
 import com.squareup.picasso.Picasso;
 
+import org.florescu.android.rangeseekbar.RangeSeekBar;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.mob.mse.weathersuggestions.Main.countries1;
+import static com.mob.mse.weathersuggestions.R.array.cold_array;
 import static com.mob.mse.weathersuggestions.R.id.listview;
 
 /**
@@ -115,7 +123,7 @@ public class suggestion extends Fragment {
             View view;
 
 
-            String cold_color[] = getContext().getResources().getStringArray(R.array.cold_array);
+            String cold_color[] = getContext().getResources().getStringArray(cold_array);
             String hot_color[] = getContext().getResources().getStringArray(R.array.hot_array);
             int len1 = cold_color.length;
             int len2 = hot_color.length;
@@ -181,16 +189,44 @@ public class suggestion extends Fragment {
     LinearLayout hot_cities, cold_cities;
     ListView hot_cities_listView,cold_cities_listView;
     ItemCityAdapter coldadapter,hotadapter ;
+    TextView filterButton, sortbutton,exit,minText,maxText,hot_empty,cold_empty;
+    Button apply ;
+    RangeSeekBar<Integer> rangeSeekBar ;
+    ArrayList<ItemCity> coldarray ;
+    ArrayList<ItemCity> hotarray,fullarray ;
+    boolean ascending = true ;
+    int min, max;
+
+
+
+
+
+    SharedPreferences preferences = this.getActivity().getSharedPreferences("pref", Context.MODE_APPEND);
+    SharedPreferences.Editor edit;
+    Gson gson ;
+
+
+
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_suggestion, container, false);
-        utils = new Utils(getContext());
+        final View root = inflater.inflate(R.layout.fragment_suggestion, container, false);
+        edit = preferences.edit();
+        gson= new Gson();
 
+        utils = new Utils(getContext());
+        coldarray =  new ArrayList<>() ;
+        hotarray = new ArrayList<>() ;
         //hot_cities = (LinearLayout) root.findViewById(R.id.hot_cities);
         //cold_cities = (LinearLayout) root.findViewById(R.id.cold_cities);
-
+        cold_empty = root.findViewById(R.id.empty_cold) ;
+        hot_empty = root.findViewById(R.id.hot_empty) ;
+        cold_empty.setVisibility(View.INVISIBLE);
+        hot_empty.setVisibility(View.INVISIBLE);
         hot_cities_listView = (ListView)root.findViewById(R.id.hot_cities) ;
         cold_cities_listView  = (ListView)root.findViewById(R.id.cold_cities) ;
 
@@ -205,8 +241,9 @@ public class suggestion extends Fragment {
                 Log.e("0", arrayList.get(0).getItemLocation().getJsonWeather().name);
                 //Log.e("1",)
                 Collections.sort(arrayList);
-                ArrayList<ItemCity> coldarray = new ArrayList<>() ;
-                ArrayList<ItemCity> hotarray = new ArrayList<>() ;
+                fullarray= new ArrayList<>() ;
+                fullarray.clear();
+                fullarray.addAll(arrayList) ;
 
                 for (int i = 0 ; i<arrayList.size();i++){
                     if (arrayList.get(i).getItemLocation().getJsonWeather().main.temp<10) {
@@ -261,7 +298,7 @@ public class suggestion extends Fragment {
         }
         weatherurls = infos.get(0);
         forcasturls = infos.get(1);
-
+        citiesLoader.execute(weatherurls, forcasturls);
         //Log.e("weatherurls",weatherurls[0]) ;
         // Log.e("forcasturls",forcasturls[1]) ;
 
@@ -292,7 +329,172 @@ public class suggestion extends Fragment {
 
             }
         });*/
-        citiesLoader.execute(weatherurls, forcasturls);
+
+
+
+        filterButton = (TextView)root.findViewById(R.id.filterbutton) ;
+        sortbutton = (TextView)root.findViewById(R.id.sortbutton) ;
+
+
+        sortbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog1 = new Dialog(getContext());
+                dialog1.setContentView(R.layout.sort);
+                final RadioButton ascend = (RadioButton)dialog1.findViewById(R.id.ascending) ;
+                final RadioButton descen = (RadioButton)dialog1.findViewById(R.id.descending);
+                if(ascending == true){
+                ascend.setChecked(true);
+                }else{
+                    descen.setChecked(true);
+                    ascend.setChecked(false);
+                }
+                Button apply = (Button)dialog1.findViewById(R.id.applysort);
+
+                apply.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (descen.isChecked()){
+                            ascending = false ;
+                            Collections.reverse(coldarray);
+                            Collections.reverse(hotarray);
+                            coldadapter.notifyDataSetChanged();
+                            hotadapter.notifyDataSetChanged();
+                        }else {
+                            ascending = true ;
+
+                            Collections.sort(coldarray);
+                            Collections.sort(hotarray);
+                            coldadapter.notifyDataSetChanged();
+                            hotadapter.notifyDataSetChanged();
+                        }
+                        dialog1.dismiss();
+                    }
+                });
+
+dialog1.show();
+
+            }
+        });
+
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                cold_empty.setVisibility(View.INVISIBLE);
+                hot_empty.setVisibility(View.INVISIBLE);
+                final Dialog dialog = new Dialog(getContext());
+                dialog.setContentView(R.layout.filters);
+                rangeSeekBar = (RangeSeekBar<Integer>)dialog.findViewById(R.id.tempspinner);
+                // rangeSeekBar =  new RangeSeekBar<>(getContext());
+                rangeSeekBar.setRangeValues(-30, 40);
+                rangeSeekBar.setSelectedMinValue(0);
+                rangeSeekBar.setSelectedMaxValue(20);
+                exit = (TextView)dialog.findViewById(R.id.closefilter) ;
+                minText = (TextView)dialog.findViewById(R.id.minvalue);
+                maxText = (TextView)dialog.findViewById(R.id.maxvalue) ;
+                minText.setText("0");
+                maxText.setText("20");
+                exit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                min=0 ; max=20 ;
+                rangeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+                    @Override
+                    public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+                        min = minValue ;
+                        max = maxValue ;
+                        // Toast.makeText(getContext(),Integer.toString(1709),Toast.LENGTH_SHORT).show();
+                        minText.setText(Integer.toString(min));
+                        maxText.setText(Integer.toString(max));
+                    }
+                });
+
+                apply = (Button)dialog.findViewById(R.id.applyfilter) ;
+
+
+                apply.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        ArrayList<ItemCity> coldfiltered = new ArrayList<ItemCity>() ;
+                        ArrayList<ItemCity> hotfilterd = new ArrayList<ItemCity>() ;
+
+                       // Toast.makeText(getContext(),"min; "+min+" max : "+max,Toast.LENGTH_SHORT).show();
+
+
+                        for (int i=0 ; i<fullarray.size();i++){
+                            if (fullarray.get(i).getItemLocation().getJsonWeather().main.temp>=min && fullarray.get(i).getItemLocation().getJsonWeather().main.temp<=max){
+
+                                if(fullarray.get(i).getItemLocation().getJsonWeather().main.temp>=10){
+                                    hotfilterd.add(fullarray.get(i));
+                                }else {
+                                    coldfiltered.add(fullarray.get(i));
+                                }
+
+                            }
+
+                        }
+
+
+
+                        coldarray.clear();
+                        coldarray.addAll(coldfiltered) ;
+
+
+                        hotarray.clear();
+                        hotarray.addAll(hotfilterd) ;
+
+                        Collections.sort(coldarray);
+                        Collections.sort(hotarray) ;
+                        if (!ascending){
+                            Collections.reverse(coldarray);
+                            Collections.reverse(hotarray);
+
+                        }
+
+
+                        coldadapter.notifyDataSetChanged();
+                        hotadapter.notifyDataSetChanged();
+
+                        if (coldarray.size()==0){
+                            //cold_cities_listView.setEmptyView(root.findViewById(R.id.empty));
+                            cold_empty.setVisibility(View.VISIBLE);
+
+
+                        }
+                        if(hotarray.size()==0){
+                            hot_empty.setVisibility(View.VISIBLE);
+                        }
+
+                        if(coldarray.size()==0&&hotarray.size()==0){
+
+
+                            Toast.makeText(getContext(),"No cities to show ! please change filters",Toast.LENGTH_SHORT).show(); ;
+                        }
+                        dialog.dismiss();
+
+
+
+
+                        Toast.makeText(getContext(),"Done",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                dialog.show();
+
+
+
+
+
+            }
+        });
+
+
+
 
 
 
@@ -432,6 +634,27 @@ public class suggestion extends Fragment {
             }
         },context) ;
         imageloader.execute(city.getCity());
+
+
+
+        addtofavorits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String thiscity = gson.toJson(city) ;
+                Set<String> cities = preferences.getStringSet("fav", new HashSet<String>());
+                cities.add(thiscity) ;
+                edit.clear();
+                edit.putStringSet("fav",cities) ;
+                edit.commit();
+
+            }
+        });
+
+
+
+
+
+
      dialog.show();
 
 

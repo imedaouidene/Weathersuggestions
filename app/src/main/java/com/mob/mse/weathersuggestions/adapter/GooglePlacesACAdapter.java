@@ -41,9 +41,10 @@ public class GooglePlacesACAdapter extends ArrayAdapter implements Filterable {
     @Override
 
     public Filter getFilter() {
-
-        Filter filter = new Filter() {
+            if (resultList !=null ) resultList.clear();
+            Filter filter = new Filter() {
             FilterResults filterResults ;
+
 
             @Override
 
