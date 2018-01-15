@@ -7,22 +7,21 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.mob.mse.weathersuggestions.R;
 import com.mob.mse.weathersuggestions.data.Utils;
-import com.mob.mse.weathersuggestions.model.ItemLocation;
+import com.mob.mse.weathersuggestions.model.ItemCity;
 import com.squareup.picasso.Picasso;
 
 public class CustomInfoAdapter implements GoogleMap.InfoWindowAdapter {
     private Context context;
     public int lat,lng ;
     public int zoom ;
-    ItemLocation itemCity ;
+    ItemCity itemCity ;
     Utils utils ;
-    public CustomInfoAdapter(Context context, int lat, int lng, int zoom,ItemLocation itemCity) {
+    public CustomInfoAdapter(Context context, int lat, int lng, int zoom,ItemCity itemCity) {
         this.context = context;
         this.lat = lat;
         this.lng = lng;
@@ -66,16 +65,16 @@ public class CustomInfoAdapter implements GoogleMap.InfoWindowAdapter {
         linearLayout = (LinearLayout)convertView.findViewById(R.id.lyt_bg) ;
 
 
-        tv_f_temp.setText(Double.toString(itemCity.getJsonWeather().main.temp+0.0f)+"°C");
-        tv_f_city.setText(itemCity.getJsonWeather().name);
-        tv_f_desc.setText(itemCity.getJsonWeather().weather.get(0).description);
-        String min = Integer.toString((int) (itemCity.getJsonWeather().main.temp_min + 0.0f));
-        String max = Integer.toString((int) (itemCity.getJsonWeather().main.temp_max + 0.0f));
+        tv_f_temp.setText(Double.toString(itemCity.getItemLocation().getJsonWeather().main.temp+0.0f)+"°C");
+        tv_f_city.setText(itemCity.getItemLocation().getJsonWeather().name);
+        tv_f_desc.setText(itemCity.getItemLocation().getJsonWeather().weather.get(0).description);
+        String min = Integer.toString((int) (itemCity.getItemLocation().getJsonWeather().main.temp_min + 0.0f));
+        String max = Integer.toString((int) (itemCity.getItemLocation().getJsonWeather().main.temp_max + 0.0f));
         minmax.setText(min + "°/" + max + "°" ) ;
-        utils.setDrawableIcon(itemCity.getJsonWeather().weather.get(0).icon, icon);
+        utils.setDrawableIcon(itemCity.getItemLocation().getJsonWeather().weather.get(0).icon, icon);
         try {
-        int c = utils.setLytColor2(itemCity.getJsonWeather().weather.get(0).icon, linearLayout);
-            Toast.makeText(context,String.valueOf(c),Toast.LENGTH_SHORT).show();
+        int c = utils.setLytColor2(itemCity.getItemLocation().getJsonWeather().weather.get(0).icon, linearLayout);
+            //Toast.makeText(context,String.valueOf(c),Toast.LENGTH_SHORT).show();
         }catch (Exception e ){
             Log.e("got u 1  ", e.toString());
 
@@ -83,10 +82,10 @@ public class CustomInfoAdapter implements GoogleMap.InfoWindowAdapter {
 
 
         try {
-    Log.e("iiii",Utils.getFlagURL(itemCity.getJsonWeather().sys.country.toLowerCase()));
+    Log.e("iiii",Utils.getFlagURL(itemCity.getItemLocation().getJsonWeather().sys.country.toLowerCase()));
             //conv_data.setDrawableSmallIcon(itemDetailsrrayList.get(position).getIcon(), holder.img_f_icon);
             Picasso.with(context)
-                    .load(Utils.getFlagURL(itemCity.getJsonWeather().sys.country.toLowerCase()))
+                    .load(Utils.getFlagURL(itemCity.getItemLocation().getJsonWeather().sys.country.toLowerCase()))
                     .into(img_f_icon);
         }catch (Exception e ){
             Log.e("got u ", e.toString());

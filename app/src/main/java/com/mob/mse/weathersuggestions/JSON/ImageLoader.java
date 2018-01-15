@@ -46,6 +46,7 @@ public class ImageLoader {
             String countryinfourl = null;
             try {
                 countryinfourl = utils.getcountryimages(countryname);
+                Log.e("image website ", countryinfourl) ;
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
