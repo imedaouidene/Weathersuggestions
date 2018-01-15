@@ -16,10 +16,6 @@ import com.mob.mse.weathersuggestions.data.Utils;
 import com.mob.mse.weathersuggestions.model.ItemLocation;
 import com.squareup.picasso.Picasso;
 
-/**
- * Created by Imed on 14-Jan-18.
- */
-
 public class CustomInfoAdapter implements GoogleMap.InfoWindowAdapter {
     private Context context;
     public int lat,lng ;
