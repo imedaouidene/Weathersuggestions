@@ -1,14 +1,24 @@
 package com.mob.mse.weathersuggestions.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.mob.mse.weathersuggestions.R;
+import com.mob.mse.weathersuggestions.adapter.ItemCityAdapter;
+import com.mob.mse.weathersuggestions.model.ItemCity;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,12 +70,55 @@ public class favorits extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    SharedPreferences preferences ;
+    SharedPreferences.Editor edit;
+    TextView nofav;
+    ListView lv;
 
+    Gson gson ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorits, container, false);
+        View root = inflater.inflate(R.layout.fragment_favorits, container, false);
+preferences    = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+
+        edit = preferences.edit();
+        gson= new Gson();
+        nofav = (TextView)root.findViewById(R.id.nofav);
+        lv = (ListView)root.findViewById(R.id.favorislist);
+        ArrayList<ItemCity> favorits = new ArrayList<>() ;
+
+        Set<String> cities = preferences.getStringSet("fav", new HashSet<String>());
+
+
+        for (String city : cities) {
+            ItemCity itemCity = gson.fromJson(city,ItemCity.class);
+            favorits.add(itemCity) ;
+            //Toast.makeText(getContext(),itemCity.getCity(),Toast.LENGTH_LONG).show();
+            //Log.e("city ",itemCity.getCity() ) ;
+
+
+        }
+            if(favorits.size()==0){
+                nofav.setVisibility(View.VISIBLE);
+        }else{
+              nofav.setVisibility(View.INVISIBLE);
+            }
+
+        ItemCityAdapter itemCityAdapter = new ItemCityAdapter(getContext(),android.R.layout.simple_list_item_1,favorits) ;
+
+        lv.setAdapter(itemCityAdapter);
+
+
+
+
+
+
+
+
+
+        return root;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -80,9 +133,6 @@ public class favorits extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
         }
     }
 

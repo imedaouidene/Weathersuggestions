@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mob.mse.weathersuggestions.JSON.CitiesLoader;
 import com.mob.mse.weathersuggestions.JSON.CountryinfoLoader;
 import com.mob.mse.weathersuggestions.JSON.ImageLoader;
@@ -45,6 +47,8 @@ import com.squareup.picasso.Picasso;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.mob.mse.weathersuggestions.Main.countries1;
 import static com.mob.mse.weathersuggestions.R.id.listview;
@@ -118,6 +122,9 @@ public class search extends Fragment {
         View root  = inflater.inflate(R.layout.fragment_search, container, false);
         utils= new Utils(getContext());
 
+        preferences = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+        edit = preferences.edit();
+        gson= new Gson();
         searchbar = (AutoCompleteTextView)root.findViewById(R.id.searchedittext) ;
 
         searchbar.setAdapter(new GooglePlacesACAdapter(getContext(),R.layout.search_item));
@@ -465,6 +472,9 @@ public class search extends Fragment {
     Button addtofavorits ;
     ViewPager pager ;
     LinearLayout linearLayout ;
+    SharedPreferences.Editor edit;
+    Gson gson ;
+    SharedPreferences preferences;
 
     public void showinfos(final Context context , final ItemCity city){
 
@@ -480,6 +490,20 @@ public class search extends Fragment {
         addtofavorits = (Button)dialog.findViewById(R.id.addtofavorits) ;
         pager = (ViewPager)dialog.findViewById(R.id.pager) ;
         linearLayout  =(LinearLayout)dialog.findViewById(listview) ;
+
+        addtofavorits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String thiscity = gson.toJson(city) ;
+                Set<String> cities = preferences.getStringSet("fav", new HashSet<String>());
+                cities.add(thiscity) ;
+                edit.clear();
+                edit.putStringSet("fav",cities) ;
+                edit.commit();
+                Toast.makeText(getContext(),"successfully added to favorits ",Toast.LENGTH_LONG).show();
+
+            }
+        }) ;
 
         //filling data
         Picasso.with(getContext())

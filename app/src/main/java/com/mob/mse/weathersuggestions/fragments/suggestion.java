@@ -201,20 +201,21 @@ public class suggestion extends Fragment {
 
 
 
-    SharedPreferences preferences = this.getActivity().getSharedPreferences("pref", Context.MODE_APPEND);
+
+
+
+
     SharedPreferences.Editor edit;
     Gson gson ;
-
-
-
-
-
-
+    SharedPreferences preferences;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View root = inflater.inflate(R.layout.fragment_suggestion, container, false);
+
+
+         preferences = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
         edit = preferences.edit();
         gson= new Gson();
 
@@ -589,7 +590,15 @@ dialog1.show();
             addtofavorits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context,"This is context",Toast.LENGTH_SHORT).show();
+                    String thiscity = gson.toJson(city) ;
+                    Set<String> cities = preferences.getStringSet("fav", new HashSet<String>());
+                    cities.add(thiscity) ;
+                    edit.clear();
+                    edit.putStringSet("fav",cities) ;
+                    edit.commit();
+                    Toast.makeText(getContext(),"successfully added to favorits ",Toast.LENGTH_LONG).show();
+
+
                 }
             }) ;
 
@@ -637,18 +646,7 @@ dialog1.show();
 
 
 
-        addtofavorits.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String thiscity = gson.toJson(city) ;
-                Set<String> cities = preferences.getStringSet("fav", new HashSet<String>());
-                cities.add(thiscity) ;
-                edit.clear();
-                edit.putStringSet("fav",cities) ;
-                edit.commit();
 
-            }
-        });
 
 
 

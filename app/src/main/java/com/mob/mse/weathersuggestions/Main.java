@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.mob.mse.weathersuggestions.fragments.GmapFragment;
+import com.mob.mse.weathersuggestions.fragments.favorits;
 import com.mob.mse.weathersuggestions.fragments.home;
 import com.mob.mse.weathersuggestions.fragments.search;
 import com.mob.mse.weathersuggestions.fragments.suggestion;
@@ -110,13 +112,14 @@ public class Main extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        android.app.FragmentManager fm = getFragmentManager();
 
         if (id == R.id.home) {
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             home fragment = new home() ;
-            fragmentTransaction.add(R.id.fragment_container, fragment);
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
 /*            Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -138,7 +141,7 @@ public class Main extends AppCompatActivity
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             search search = new search() ;
-            fragmentTransaction.add(R.id.fragment_container, search);
+            fragmentTransaction.replace(R.id.fragment_container, search);
             fragmentTransaction.commit();
         } else if (id == R.id.suggestion) {
             Window window = this.getWindow();
@@ -152,13 +155,28 @@ public class Main extends AppCompatActivity
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             suggestion suggestion_frag = new suggestion() ;
-            fragmentTransaction.add(R.id.fragment_container, suggestion_frag);
+            fragmentTransaction.replace(R.id.fragment_container, suggestion_frag);
             fragmentTransaction.commit();
         }else if (id == R.id.favorite) {
+            Window window = this.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
+// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+// finally change the color
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.white));
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            favorits favorits = new favorits() ;
+            fragmentTransaction.replace(R.id.fragment_container, favorits);
+            fragmentTransaction.commit();
         } else if (id == R.id.settings) {
 
         } else if (id == R.id.about) {
+
+        }else if (id==R.id.map){
+            fm.beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
 
         }
 

@@ -29,8 +29,6 @@ public class CountryinfoLoader {
     }
 
 
-
-
     public static class placeIdTask extends AsyncTask<String, Void, Countryinfo> {
         public AsyncResponse delegate = null;//Call back interface
         Context context ;
@@ -41,6 +39,8 @@ public class CountryinfoLoader {
             this.context = context ;
 
         }
+
+
 
         @Override
         protected Countryinfo doInBackground(String... strings) {

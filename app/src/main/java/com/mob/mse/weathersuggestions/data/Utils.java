@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.mob.mse.weathersuggestions.R;
@@ -231,7 +232,53 @@ public class Utils{
 
         }
     }
+    public int setLytColor2(String icon, LinearLayout lyt){
 
+        String color[] = context.getResources().getStringArray(R.array.color_weather);
+        if (icon.equals("01d") || icon.equals("01n")) { // clear sky
+            lyt.setBackgroundColor(Color.parseColor(color[0]));
+            return Color.parseColor(color[0]) ;
+
+        } else if (icon.equals("02d") || icon.equals("02n")) { // few clouds
+            lyt.setBackgroundColor(Color.parseColor(color[1]));
+            return Color.parseColor(color[1]) ;
+
+
+        } else if (icon.equals("03d") || icon.equals("03n")) { // scatteredclouds
+            lyt.setBackgroundColor(Color.parseColor(color[2]));
+            return Color.parseColor(color[2]) ;
+
+
+        } else if (icon.equals("04d") || icon.equals("04n")) { // broken clouds
+            lyt.setBackgroundColor(Color.parseColor(color[3]));
+            return Color.parseColor(color[3]) ;
+
+        } else if (icon.equals("09d") || icon.equals("09n")) { // shower rain
+            lyt.setBackgroundColor(Color.parseColor(color[4]));
+            return Color.parseColor(color[4]) ;
+
+        } else if (icon.equals("10d") || icon.equals("10n")) { // rain
+            lyt.setBackgroundColor(Color.parseColor(color[5]));
+            return Color.parseColor(color[5]) ;
+
+        } else if (icon.equals("11d") || icon.equals("11n")) { // thunderstorm
+            lyt.setBackgroundColor(Color.parseColor(color[6]));
+            return Color.parseColor(color[6]) ;
+
+        } else if (icon.equals("13d") || icon.equals("13n")) { // snow
+            lyt.setBackgroundColor(Color.parseColor(color[7]));
+            return Color.parseColor(color[7]) ;
+
+        } else if (icon.equals("50d") || icon.equals("50n")) { // mist
+            lyt.setBackgroundColor(Color.parseColor(color[8]));
+            return Color.parseColor(color[8]) ;
+
+        } else {
+            lyt.setBackgroundColor(Color.parseColor(color[9]));
+            return Color.parseColor(color[9]) ;
+
+        }
+    }
     public void setDrawableSmallIcon(String icon, ImageView im) {
 
         if (icon.equals("01d")||icon.equals("01n")) { // clear sky
