@@ -171,9 +171,7 @@ public class Main extends AppCompatActivity
             favorits favorits = new favorits() ;
             fragmentTransaction.replace(R.id.fragment_container, favorits);
             fragmentTransaction.commit();
-        } else if (id == R.id.settings) {
 
-        } else if (id == R.id.about) {
 
         }else if (id==R.id.map){
             fm.beginTransaction().replace(R.id.fragment_container, new GmapFragment()).commit();
