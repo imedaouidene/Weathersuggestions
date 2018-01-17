@@ -113,11 +113,15 @@ public class home extends Fragment {
 
         String loc = "46.1877542|6.1487415";
 
-
+        Location myloc ;
         GPSTracker gps = new GPSTracker(getContext()) ;
+        try {
+                     myloc = gps.getLocation();
+            loc = Double.toString(myloc.getLatitude())+"|"+Double.toString(myloc.getLongitude()) ;
+        }catch (Exception e ){
+            Log.e("gps not ready" , e.toString());
+        }
 
-        Location myloc = gps.getLocation();
-        loc = Double.toString(myloc.getLatitude())+"|"+Double.toString(myloc.getLongitude()) ;
         Log.e("location",loc) ;
         String urlstring = Utils.getURLweather(loc);
         String forecast = Utils.getURLforecast(loc);

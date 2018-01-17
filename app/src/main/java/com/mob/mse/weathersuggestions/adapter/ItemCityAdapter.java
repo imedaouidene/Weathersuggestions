@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.mob.mse.weathersuggestions.R;
 import com.mob.mse.weathersuggestions.data.Utils;
-import com.mob.mse.weathersuggestions.data.converting_data;
 import com.mob.mse.weathersuggestions.model.ItemCity;
 import com.squareup.picasso.Picasso;
 
@@ -26,7 +25,6 @@ public class ItemCityAdapter extends ArrayAdapter<ItemCity> {
 	private Context context;
 	private int viewRes;
 	private Resources res;
-	converting_data conv_data = new converting_data() ;
 	public ItemCityAdapter(Context context, int resource, ArrayList<ItemCity> ItemCitys) {
 		super(context, resource, ItemCitys);
 		this.itemDetailsrrayList = ItemCitys ;

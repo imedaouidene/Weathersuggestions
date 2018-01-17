@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mob.mse.weathersuggestions.R;
-import com.mob.mse.weathersuggestions.data.converting_data;
+import com.mob.mse.weathersuggestions.data.Utils;
 import com.mob.mse.weathersuggestions.model.ItemForecast;
 
 import java.util.ArrayList;
@@ -22,18 +22,18 @@ public class ItemForecastAdapter extends ArrayAdapter<ItemForecast> {
 	private Context context;
 	private int viewRes;
 	private Resources res;
-	converting_data conv_data = new converting_data() ;
 	public ItemForecastAdapter( Context context, int resource,  ArrayList<ItemForecast> itemForecasts) {
 		super(context, resource, itemForecasts);
 		this.itemDetailsrrayList = itemForecasts ;
 		this.viewRes= resource;
 		this.context = context ;
 		this.res = context.getResources() ;
+		utils = new Utils(context) ;
 
 
 	}
 
-
+Utils utils ;
 	public int getCount() {
 		return itemDetailsrrayList.size();
 	}
@@ -65,7 +65,7 @@ public class ItemForecastAdapter extends ArrayAdapter<ItemForecast> {
 		holder.tv_f_temp.setText(itemDetailsrrayList.get(position).getTemp());
 		holder.tv_f_day.setText(itemDetailsrrayList.get(position).getDay());
 		holder.tv_f_desc.setText(itemDetailsrrayList.get(position).getDesc());
-		conv_data.setDrawableSmallIcon(itemDetailsrrayList.get(position).getIcon(), holder.img_f_icon);
+		utils.setDrawableSmallIcon(itemDetailsrrayList.get(position).getIcon(), holder.img_f_icon);
 		
 		return convertView;
 	}

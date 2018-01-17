@@ -367,6 +367,7 @@ public class Utils{
         return null;
     }
 
+
     public ArrayList<String[]> generate_cities(String[] countries1) throws UnsupportedEncodingException {
 
         ArrayList<String[]> to_return = new ArrayList<>();
@@ -392,4 +393,9 @@ public class Utils{
         to_return.add(forcast);
      return to_return ;
     }
+
+
+
+
+
 }
