@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import static com.mob.mse.weathersuggestions.R.layout.activity_main;
 
-public class MainActivity extends AppCompatActivity {
+public class Splash extends AppCompatActivity {
 
 
 
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                         }catch(InterruptedException e){
                             e.printStackTrace();
                         }finally{
-                            Intent intent = new Intent(MainActivity.this,Main.class);
+                            Intent intent = new Intent(Splash.this,Main.class);
                             startActivity(intent);
                             finish();
                         }

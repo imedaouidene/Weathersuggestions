@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.mob.mse.weathersuggestions.MainActivity">
+    tools:context="com.mob.mse.weathersuggestions.Splash">
 
   <ImageView
       android:layout_width="300dp"
