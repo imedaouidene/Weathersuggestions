@@ -29,7 +29,7 @@ import com.mob.mse.weathersuggestions.JSON.ImageLoader;
 import com.mob.mse.weathersuggestions.R;
 import com.mob.mse.weathersuggestions.adapter.ItemCityAdapter;
 import com.mob.mse.weathersuggestions.adapter.SlidingImage_Adapter;
-import com.mob.mse.weathersuggestions.data.Utils;
+import com.mob.mse.weathersuggestions.utils.Utils;
 import com.mob.mse.weathersuggestions.model.Countryinfo;
 import com.mob.mse.weathersuggestions.model.ForecastResponse;
 import com.mob.mse.weathersuggestions.model.ImageResponse;

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.mob.mse.weathersuggestions.R;
-import com.mob.mse.weathersuggestions.data.Utils;
+import com.mob.mse.weathersuggestions.utils.Utils;
 import com.mob.mse.weathersuggestions.model.ItemCity;
 import com.squareup.picasso.Picasso;
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.mob.mse.weathersuggestions.data.Utils;
+import com.mob.mse.weathersuggestions.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

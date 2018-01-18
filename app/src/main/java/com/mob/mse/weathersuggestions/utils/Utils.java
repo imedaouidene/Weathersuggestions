@@ -1,4 +1,4 @@
-package com.mob.mse.weathersuggestions.data;
+package com.mob.mse.weathersuggestions.utils;
 
 import android.content.Context;
 import android.graphics.Color;

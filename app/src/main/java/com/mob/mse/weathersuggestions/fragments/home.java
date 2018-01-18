@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.mob.mse.weathersuggestions.JSON.JSONLoader;
 import com.mob.mse.weathersuggestions.R;
-import com.mob.mse.weathersuggestions.data.GPSTracker;
-import com.mob.mse.weathersuggestions.data.Utils;
+import com.mob.mse.weathersuggestions.utils.GPSTracker;
+import com.mob.mse.weathersuggestions.utils.Utils;
 import com.mob.mse.weathersuggestions.model.ForecastResponse;
 import com.mob.mse.weathersuggestions.model.ItemForecast;
 import com.mob.mse.weathersuggestions.model.ItemLocation;

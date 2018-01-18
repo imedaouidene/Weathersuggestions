@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mob.mse.weathersuggestions.R;
-import com.mob.mse.weathersuggestions.data.Utils;
+import com.mob.mse.weathersuggestions.utils.Utils;
 import com.mob.mse.weathersuggestions.model.ItemForecast;
 
 import java.util.ArrayList;

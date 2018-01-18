@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.mob.mse.weathersuggestions.data.Utils;
+import com.mob.mse.weathersuggestions.utils.Utils;
 import com.mob.mse.weathersuggestions.model.ImageResponse;
 
 import org.json.JSONObject;
