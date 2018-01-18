@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -19,12 +21,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.mob.mse.weathersuggestions.data.ConnectionDetector;
-
 import static com.mob.mse.weathersuggestions.R.layout.activity_main;
 
 public class MainActivity extends AppCompatActivity {
-ConnectionDetector cd ;
+
 
 
     @Override
@@ -103,7 +103,6 @@ ConnectionDetector cd ;
 
         //Thread to pass automatically to next layout
 
-        cd = new ConnectionDetector(getApplicationContext()) ;
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -136,7 +135,7 @@ ConnectionDetector cd ;
                 });
 
 
-        boolean  b = cd.isConnectingToInternet() ;
+        boolean  b = isConnectingToInternet() ;
 
         if (b) {
 
@@ -185,5 +184,22 @@ ConnectionDetector cd ;
 
             }
         }
+    }
+
+
+    public boolean isConnectingToInternet(){
+        ConnectivityManager connectivity = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null)
+        {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
+                    {
+                        return true;
+                    }
+
+        }
+        return false;
     }
 }

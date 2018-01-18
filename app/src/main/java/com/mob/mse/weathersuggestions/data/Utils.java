@@ -29,7 +29,6 @@ public class Utils{
 
     public String getLastUpdate(Long l){
         Date curDate = new Date(l *1000);
-        //Wed, 4 Jul 2001 12:08:56 -0700
         SimpleDateFormat format = new SimpleDateFormat("EEE d MMM yyyy HH:mm");
         String dateToStr = format.format(curDate);
         return "LAST UPDATE : "+dateToStr.toUpperCase();

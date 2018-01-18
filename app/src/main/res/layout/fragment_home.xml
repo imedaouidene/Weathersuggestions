@@ -134,36 +134,32 @@
     -->
 
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        >
-        <TextView
-            android:layout_alignParentRight="true"
-            android:id="@+id/tv_humidity"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Humidity : 75 %"
-            android:textColor="@color/White" />
+            android:layout_alignParentBottom="true">
 
-        <TextView
-            android:layout_alignParentLeft="true"
-            android:id="@+id/tv_wind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wind speed  : 75 km/hr"
-            android:textColor="@color/White" />
+            <TextView
+                android:id="@+id/tv_humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Humidity : 75 %"
+                android:textColor="@color/White" />
 
-
-
-
-
+            <TextView
+                android:id="@+id/tv_wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Wind speed  : 75 km/hr"
+                android:textColor="@color/White" />
 
 
         </RelativeLayout>
 
     </RelativeLayout>
+
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
@@ -180,15 +176,6 @@
 
     </ScrollView>
 
-    <ListView
 
-        android:background="@color/soft_grey"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-
-        android:dividerHeight="0dp"
-        android:visibility="gone"
-        android:layout_weight="1" >
-    </ListView>
 
 </LinearLayout>

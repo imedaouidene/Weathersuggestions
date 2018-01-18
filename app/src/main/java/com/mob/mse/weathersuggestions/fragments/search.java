@@ -526,12 +526,7 @@ public class search extends Fragment {
                 setViewList1(forecasts, context, linearLayout);
 
                 ci_currency.setText(currencies);
-                addtofavorits.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(context, "This is context", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
 
 
             }

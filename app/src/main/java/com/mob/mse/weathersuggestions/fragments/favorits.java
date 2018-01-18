@@ -144,8 +144,8 @@ utils = new Utils(getContext()) ;
                 AlertDialog.Builder builder = new AlertDialog.Builder(context) ;
 
                 final ItemCity itemCity = (ItemCity) adapterView.getItemAtPosition(i);
-            builder.setTitle("delete from favorits")
-                    .setMessage("Do you want to delete "+itemCity.getCity()+" from the list of favorits ?")
+            builder.setTitle("delete from favorites")
+                    .setMessage("Do you want to delete "+itemCity.getCity()+" from the list of favorites ?")
                     .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

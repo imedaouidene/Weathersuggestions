@@ -35,7 +35,7 @@ public class Main extends AppCompatActivity
 
 
     public static String[] countries1 = {"Brasilia", "Miami",  "Singapore", "Mumbai",
-            "Lima", "Dubai", "Sydney", "Bangkok",  "Taipei", "Cairo", "Beirut", "Rabat"
+            "Lima", "Dubai", "Sydney",  "Taipei", "Cairo", "Beirut", "Rabat"
          , "Havana", "Darwin", "Santiago","Tunis", "Istanbul", "Rome", "Barcelona", "Paris", "London", "Madrid",
             "Berlin", "Frankfurt", "Prague", "Stockholm", "Moscow,ru", "Tokyo",  "Seoul", "Montreal", "Toronto","Bangkok","geneva,ch","Lausanne","Zurich"
     };
