@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -60,7 +61,7 @@ public class Splash extends AppCompatActivity {
 
 
 
-    public void showSettingsAlert() {
+    public void showSettingsAlert1() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
         // Setting Dialog Title
@@ -86,6 +87,37 @@ public class Splash extends AppCompatActivity {
         // Showing Alert Message
         alertDialog.create().show();
     }
+
+
+
+
+    public void showSettingsAlert() {
+        android.support.v7.app.AlertDialog.Builder settingsAlert = new android.support.v7.app.AlertDialog.Builder(Splash.this);
+        settingsAlert.setTitle("GPS not active ");
+        settingsAlert.setMessage("ACTIVATE GPS ?");
+
+        settingsAlert.setPositiveButton("Go to Settings",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent goToSettings = new Intent(
+                                Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(goToSettings);
+
+                    }
+                });
+
+        settingsAlert.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        settingsAlert.show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -201,5 +233,15 @@ public class Splash extends AppCompatActivity {
 
         }
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+
+
+        super.onResume();
+
+
+        checkconnection();
     }
 }
